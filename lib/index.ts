@@ -1,8 +1,37 @@
-// https://github.com/tonyantony300/blog-repo/blob/8e474f87c46b4dfb877c479a2afb09f9d7e2d5d8/lib/remark-code-title.js
 import { visit } from 'unist-util-visit'
 import { type Root, type Parent, type Code, PhrasingContent } from 'mdast'
 import type { MdxJsxTextElement } from 'mdast-util-mdx-jsx'
 
+
+/**
+ * A remark plugin that extracts titles from code block language annotations.
+ *
+ * This plugin searches for code blocks whose `lang` property is formatted as
+ * `language:title` (for example, `js:example.js`). When such a code block is found,
+ * the plugin:
+ *
+ * 1. Splits the language string into its actual language (e.g. `js`) and a title (e.g. `example.js`).
+ * 2. Inserts an MDX JSX text element before the code block containing the title.
+ * 3. Updates the code block's `lang` property to contain only the language part.
+ *
+ * The inserted title element is a `<div>` with the class `remark-code-title`.
+ *
+ * @example
+ * // Given the following Markdown:
+ * ```md
+ * ```js:example.js
+ * console.log("Hello, world!");
+ * ```
+ *
+ * // The plugin transforms it into:
+ *
+ * <div className="remark-code-title">example.js</div>
+ * ```js
+ * console.log("Hello, world!");
+ * ```
+ *
+ * @returns A transformer function compatible with unified's plugin interface.
+ */
 export function remarkCodeTitles() {
   return (tree: Root) => {
     visit(
