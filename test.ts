@@ -2,7 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
-import { type Root, type Code } from 'mdast'
+import { type Code } from 'mdast'
 import { type MdxJsxTextElement } from 'mdast-util-mdx-jsx'
 import { remarkCodeTabs, remarkCodeTitles } from './lib/index.js'
 
@@ -53,7 +53,7 @@ void test('should split a code block with tab headers into multiple code nodes',
     '  return <></>;',
     '}',
     '',
-    '* <!-- css:main.css -->',
+    '<!-- css:main.css -->',
     'body {',
     '  color: red;',
     '}',

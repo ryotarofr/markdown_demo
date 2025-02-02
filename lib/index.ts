@@ -1,7 +1,6 @@
-import { visit } from 'unist-util-visit'
-import { type Root, type Parent, type Code, PhrasingContent } from 'mdast'
-import type { MdxJsxTextElement } from 'mdast-util-mdx-jsx'
-
+import {visit} from 'unist-util-visit'
+import {type Root, type Parent, type Code, PhrasingContent} from 'mdast'
+import type {MdxJsxTextElement} from 'mdast-util-mdx-jsx'
 
 /**
  * A remark plugin that extracts titles from code block language annotations.
@@ -59,10 +58,10 @@ export function remarkCodeTitles() {
           type: 'mdxJsxTextElement',
           name: 'div',
           attributes: [
-            { type: 'mdxJsxAttribute', name: 'className', value: className }
+            {type: 'mdxJsxAttribute', name: 'className', value: className}
           ],
-          children: [{ type: 'text', value: title }],
-          data: { _xdmExplicitJsx: true }
+          children: [{type: 'text', value: title}],
+          data: {_xdmExplicitJsx: true}
         }
 
         parent.children.splice(index, 0, titleNode)
@@ -132,7 +131,7 @@ export function remarkCodeTabs() {
 
         const lines = node.value.split('\n')
         // Each section is an object with language, label, and its code lines.
-        type Section = { lang: string; title: string; codeLines: string[] }
+        type Section = {lang: string; title: string; codeLines: string[]}
         const sections: Section[] = []
         let currentSection: Section | undefined
 
