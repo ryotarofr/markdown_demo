@@ -7,22 +7,22 @@ on:
   workflow_dispatch:
     inputs:
       semver:
-        description: "The semver to use"
+        description: 'The semver to use'
         required: true
-        default: "patch"
+        default: 'patch'
         type: choice
         options:
           - patch
           - minor
           - major
       tag:
-        description: "The npm tag"
+        description: 'The npm tag'
         required: false
-        default: "latest"
+        default: 'latest'
       commit-message:
-        description: "The commit message template"
+        description: 'The commit message template'
         required: false
-        default: "chore(release): {version}"
+        default: 'chore(release): {version}'
   pull_request:
     branches:
       - main
