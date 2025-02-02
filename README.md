@@ -23,7 +23,7 @@ const inputMarkdown = [
     '  return <></>;',
     '}',
     '',
-    '* <!-- css:main.css -->',
+    '<!-- css:main.css -->',
     'body {',
     '  color: red;',
     '}',
