@@ -28,6 +28,11 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    env:
+      COMMIT_MESSAGE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.commit-message || 'chore(release): {version}' }}
+      SEMVER: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.semver || 'patch' }}
+      NPM_TAG: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || 'latest' }}
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -43,6 +48,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           npm-token: ${{ secrets.NPM_TOKEN }}
-          commit-message: ${{ github.event.inputs.commit-message || 'chore(release): {version}' }}
-          semver: ${{ github.event.inputs.semver || 'patch' }}
-          npm-tag: ${{ github.event.inputs.tag || 'latest' }}
+          commit-message: ${{ env.COMMIT_MESSAGE }}
+          semver: ${{ env.SEMVER }}
+          npm-tag: ${{ env.NPM_TAG }}
