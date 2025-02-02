@@ -28,21 +28,25 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    env:
-      COMMIT_MESSAGE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.commit-message || 'chore(release): {version}' }}
-      SEMVER: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.semver || 'patch' }}
-      NPM_TAG: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || 'latest' }}
-
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 18
           registry-url: 'https://registry.npmjs.org'
+
+      - name: Set environment variables
+        run: |
+          echo "COMMIT_MESSAGE=${{ github.event.inputs.commit-message || 'chore(release): {version}' }}" >> $GITHUB_ENV
+          echo "SEMVER=${{ github.event.inputs.semver || 'patch' }}" >> $GITHUB_ENV
+          echo "NPM_TAG=${{ github.event.inputs.tag || 'latest' }}" >> $GITHUB_ENV
+
       - name: Install dependencies
         run: npm install
+
       - name: Build package
         run: npm run build
+
       - name: Publish to npm
         uses: nearform/optic-release-automation-action@v4
         with:
