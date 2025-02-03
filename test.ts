@@ -1,10 +1,10 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { unified } from 'unified'
+import {unified} from 'unified'
 import remarkParse from 'remark-parse'
-import { type Code } from 'mdast'
-import { type MdxJsxTextElement } from 'mdast-util-mdx-jsx'
-import { remarkCodeTabs, remarkCodeTitles } from './lib/index.js'
+import {type Code} from 'mdast'
+import {type MdxJsxTextElement} from 'mdast-util-mdx-jsx'
+import {remarkCodeTabs, remarkCodeTitles} from './lib/index.js'
 
 void test('should add a title to the code block', async () => {
   const inputMarkdown = '```js:title.js\nconsole.log("Hello");\n```'
@@ -69,7 +69,7 @@ void test('should split a code block with tab headers into multiple code nodes',
     (node): node is Code => node.type === 'code'
   )
 
-  // console.log('Parsed Markdown AST:', JSON.stringify(codeNodes, null, 2)) // ASTをログ出力
+  // Console.log('Parsed Markdown AST:', JSON.stringify(codeNodes, null, 2)) // ASTをログ出力
   // 👇DEGUB
   // Parsed Markdown AST: [
   //   {
