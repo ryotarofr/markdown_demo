@@ -1,6 +1,6 @@
 # remark-markdown-unist
 
-We have created a custom plugin for remark. You can easily add it with [`unified`](https://github.com/unifiedjs/unified).
+A custom plugin for remark. You can easily add it with [`unified`](https://github.com/unifiedjs/unified).
 
 ## Install
 
@@ -12,7 +12,7 @@ npm install remark-markdown-unist
 yarn add remark-markdown-unist
 ```
 
-## Ezample
+## Example
 
 ````js
 // remarkCodeTabs
