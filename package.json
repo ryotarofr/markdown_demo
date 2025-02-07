@@ -4,6 +4,7 @@
   "description": "remark markdown plugins",
   "license": "MIT",
   "keywords": [
+    "remark-markdown-unist",
     "unist",
     "unist-util",
     "util",
