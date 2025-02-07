@@ -1,14 +1,14 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import {unified} from 'unified'
+import { unified } from 'unified'
 import remarkParse from 'remark-parse'
-import {type Code} from 'mdast'
-import {type MdxJsxTextElement} from 'mdast-util-mdx-jsx'
-import {remarkCodeTabs, remarkCodeTitles} from './lib/index.js'
+import { type Code } from 'mdast'
+import { type MdxJsxTextElement } from 'mdast-util-mdx-jsx'
+import remarkMarkdownUnist from './lib/index.js'
 
 void test('should add a title to the code block', async () => {
   const inputMarkdown = '```js:title.js\nconsole.log("Hello");\n```'
-  const processor = unified().use(remarkParse).use(remarkCodeTitles)
+  const processor = unified().use(remarkParse).use(remarkMarkdownUnist)
   const parsedTree = processor.parse(inputMarkdown)
 
   await processor.run(parsedTree)
@@ -33,7 +33,7 @@ void test('should add a title to the code block', async () => {
 
 void test('should not modify code blocks without a title', async () => {
   const inputMarkdown = '```js\nconsole.log("Hello");\n```'
-  const processor = unified().use(remarkParse).use(remarkCodeTitles)
+  const processor = unified().use(remarkParse).use(remarkMarkdownUnist)
   const parsedTree = processor.parse(inputMarkdown)
 
   await processor.run(parsedTree)
@@ -60,7 +60,7 @@ void test('should split a code block with tab headers into multiple code nodes',
     '```'
   ].join('\n')
 
-  const processor = unified().use(remarkParse).use(remarkCodeTabs)
+  const processor = unified().use(remarkParse).use(remarkMarkdownUnist)
   const parsedTree = processor.parse(inputMarkdown)
 
   await processor.run(parsedTree)
@@ -107,7 +107,7 @@ void test('should split a code block with tab headers into multiple code nodes',
 
 void test('should not modify code blocks without tab headers', async () => {
   const inputMarkdown = '```js\nconsole.log("Hello, world!");\n```'
-  const processor = unified().use(remarkParse).use(remarkCodeTabs)
+  const processor = unified().use(remarkParse).use(remarkMarkdownUnist)
   const parsedTree = processor.parse(inputMarkdown)
 
   await processor.run(parsedTree)
