@@ -10,6 +10,8 @@ This package is [ESM](https://gist.github.com/sindresorhus/a39789f98801d908bbc7f
 npm install remark-markdown-unist
 # or
 yarn add remark-markdown-unist
+# or
+pnpm install remark-markdown-unist
 ```
 
 ## Example
