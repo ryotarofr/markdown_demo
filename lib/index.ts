@@ -76,7 +76,7 @@ class RemarkMarkdownUnist {
    * Walks the tree to find code nodes with language annotations that include a colon.
    * When found, it extracts the title and inserts an MDX JSX text element before the code block.
    */
-  private addCodeTitles(tree: Root): void {
+  public addCodeTitles(tree: Root): void {
     visit(
       tree,
       'code',
@@ -121,7 +121,7 @@ class RemarkMarkdownUnist {
    * Walks the tree to find code nodes that include tab header comments.
    * If found, the code block is split into multiple code nodes—one per tab section.
    */
-  private splitCodeTabs(tree: Root): void {
+  public splitCodeTabs(tree: Root): void {
     visit(
       tree,
       'code',
@@ -189,9 +189,18 @@ class RemarkMarkdownUnist {
   }
 }
 
+const plugin = new RemarkMarkdownUnist();
+
+export function addCodeTitles(tree: Root): void {
+  plugin.addCodeTitles(tree);
+}
+
+export function splitCodeTabs(tree: Root): void {
+  plugin.splitCodeTabs(tree);
+}
+
 export default function remarkMarkdownUnist() {
-  const transformer = new RemarkMarkdownUnist()
   return (tree: Root) => {
-    transformer.transform(tree)
-  }
+    plugin.transform(tree);
+  };
 }
