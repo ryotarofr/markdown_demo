@@ -33,11 +33,12 @@
     "remark-rehype": "^10.1.0",
     "remark-slug": "^8.0.0",
     "remark-smartypants": "^3.0.2",
-    "remark-toc": "^8.0.1"
+    "remark-toc": "^8.0.1",
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@shikijs/rehype": "^2.1.0",
+    "@shikijs/rehype": "^2.3.2",
     "@shikijs/transformers": "^2.1.0",
     "@shikijs/twoslash": "^2.1.0",
     "@types/node": "^20",

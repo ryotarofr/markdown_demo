@@ -1,0 +1,17 @@
+import { TabBlock, SampleCodeBlock, TabbedCode, TabbedCodeGroup } from "../components/Tab"
+
+export const components = {
+  // pre: SampleCodeBlock,
+  tabs: TabBlock,
+};
+
+declare global {
+  type MDXProvidedComponents = typeof components;
+}
+
+export function useMDXComponents(): MDXProvidedComponents {
+  return {
+    // pre: SampleCodeBlock,
+    tabs: TabBlock,
+  };
+}

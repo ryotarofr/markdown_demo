@@ -1,19 +1,21 @@
-import React, {cache, useEffect, useState} from 'react'
+import React, { cache, useEffect, useState } from 'react'
 import * as runtime from 'react/jsx-runtime'
-import {evaluate} from '@mdx-js/mdx'
+import { evaluate } from '@mdx-js/mdx'
 // Import type { MDXModule } from "mdx/types";
-import {config as mdxConfig} from '../config/index.config.js'
+import { config as mdxConfig } from '../config/index.config.js'
+import { useMDXComponents } from '@/hooks/useMDXComponents'
 
-export default function MdxLexer({mdxString}: {mdxString: string}) {
-  const [Content, setContent] = useState<React.ComponentType | undefined>(null)
+export default function MdxLexer({ mdxString }: { mdxString: string }) {
+  const [Content, setContent] = useState<React.ComponentType | undefined>()
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       if (!mdxString) return
       // @ts-expect-error
       const result: MDXModule = await evaluate(mdxString, {
         ...runtime,
-        ...mdxConfig
+        ...mdxConfig,
+        useMDXComponents,
       })
 
       if (result.default) {
