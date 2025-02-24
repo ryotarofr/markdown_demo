@@ -1,4 +1,4 @@
-import withSyntaxHighlighter from '@shikijs/rehype'
+import rehypeShiki from '@shikijs/rehype'
 import withHeadingIds from 'rehype-slug'
 import withFrontmatter from 'remark-frontmatter'
 import withGfm from 'remark-gfm'
@@ -8,8 +8,9 @@ import withTypographicQuotes from 'remark-smartypants'
 import remarkToc from 'remark-toc'
 import remarkExternalLinks from 'remark-external-links'
 import rehypeSlug from 'rehype-slug'
-import remarkMarkdownUnist from 'remark-markdown-unist'
 import {config as syntaxHighlighterConfig} from './syntax-highlighter.config.mjs'
+import remarkTabsToMdx, { remarkVisitPlugin } from '@/components/test'
+
 
 /** @type {import('@mdx-js/mdx').CompileOptions} */
 export const config = {
@@ -19,13 +20,14 @@ export const config = {
     remarkMath,
     withFrontmatter,
     withGfm,
+    remarkTabsToMdx,
+    // remarkVisitPlugin,
     withTypographicQuotes,
-    remarkMarkdownUnist
   ],
   rehypePlugins: [
     rehypeSlug,
     rehypeKatex,
-    withHeadingIds,
-    [withSyntaxHighlighter, syntaxHighlighterConfig]
+    withHeadingIds,    
+    [rehypeShiki, syntaxHighlighterConfig],
   ]
 }
