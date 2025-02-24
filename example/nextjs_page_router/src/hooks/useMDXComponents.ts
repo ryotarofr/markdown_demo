@@ -1,4 +1,4 @@
-import { TabBlock, SampleCodeBlock, TabbedCode, TabbedCodeGroup } from "../components/Tab"
+import { TabBlock } from "../components/Tab"
 
 export const components = {
   // pre: SampleCodeBlock,
