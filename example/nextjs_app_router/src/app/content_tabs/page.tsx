@@ -1,5 +1,9 @@
 import MdxLexer from "@/util/MarkdownLexer"
-import { processMdx } from "@/util/processMdx"
+import { compileAndProcessMdx, processMdx } from "@/util/processMdx"
+import styles from "./page.module.css";
+import { compile_mdx } from "@/crates/mdxjs-rs/pkg/mdxjs_rs";
+import { Editor } from "@/components/Editor";
+
 
 export default async function ContentTabs() {
   // TODO
@@ -7,7 +11,6 @@ export default async function ContentTabs() {
   // でコンパイルエラーとなる
   // エラーにならないようにしたい。例えば、未定義であればそれは文字列として扱うようにする
   // 例 . <Tomato /> これは未定義のため "<Tomato />"として使う
-
   const mdx = [
     '# Content tabs',
     '## 概要',
@@ -70,8 +73,9 @@ export default async function ContentTabs() {
 
   const mdxModule = await processMdx(mdx);
   return (
-    <div>
+    <div className={styles.page}>
       <MdxLexer Component={mdxModule.default} />
+      {/* <Editor value={mdx} /> */}
     </div>
   )
 }

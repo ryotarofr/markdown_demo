@@ -1,0 +1,1 @@
+/home/ryotarofr/work/remark-markdown-unist/example/nextjs_app_router/src/crates/mdxjs-rs/target/debug/mdxjs-rs: /home/ryotarofr/work/remark-markdown-unist/example/nextjs_app_router/src/crates/mdxjs-rs/src/main.rs
