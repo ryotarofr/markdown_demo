@@ -1,9 +1,7 @@
 import MdxLexer from "@/util/MarkdownLexer"
-import { compileAndProcessMdx, processMdx } from "@/util/processMdx"
-import styles from "./page.module.css";
-import { compile_mdx } from "@/crates/mdxjs-rs/pkg/mdxjs_rs";
-import { Editor } from "@/components/Editor";
+import { processMdx } from "@/util/processMdx"
 
+import styles from "./page.module.css";
 
 export default async function ContentTabs() {
   // TODO

@@ -19,10 +19,10 @@ export const processMdx = cache(async function processMdx<T extends Record<strin
   return await evaluate(code, { ...runtime, ...mdxConfig, useMDXComponents });
 });
 
-export const compileAndProcessMdx = cache(async function processMdx<T extends Record<string, unknown>>(
-  code: string,
-): Promise<MdxContent<T>> {
-  const compiledCode = compile_mdx(code);
-  // @ts-expect-error
-  return await evaluate(compiledCode, { ...runtime, ...mdxConfig, useMDXComponents });
-});
+// export const compileAndProcessMdx = cache(async function processMdx<T extends Record<string, unknown>>(
+//   code: string,
+// ): Promise<MdxContent<T>> {
+//   const compiledCode = compile_mdx(code);
+//   // @ts-expect-error
+//   return await evaluate(compiledCode, { ...runtime, ...mdxConfig, useMDXComponents });
+// });

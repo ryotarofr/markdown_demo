@@ -2,19 +2,19 @@
 
 import { useEffect, useState } from 'react';
 import init, { compile_mdx } from '@/crates/mdxjs-rs/pkg/mdxjs_rs.js';
-import { compileAndProcessMdx, processMdx } from '@/util/processMdx';
+import MDXRenderer from '@/components/Editor';
+
+import styles from "./page.module.css";
 
 export default function Wasm() {
   const [source, setSource] = useState<string>("# Hello, MDX!");
-  const [compiledMDX, setCompiledMDX] = useState<any>();
+  const [compiledMDX, setCompiledMDX] = useState<string>("");
 
   useEffect(() => {
     (async () => {
       await initWasm();
-      // const initialCompiled = await compileAndProcessMdx(source);
-      // const initialCompiled = compile_mdx(source);
-      // const initialCompiled = await processMdx(source)
-      // setCompiledMDX(initialCompiled);
+      const initialCompiled = compile_mdx(source);
+      setCompiledMDX(initialCompiled);
     })();
   }, []);
 
@@ -30,7 +30,7 @@ export default function Wasm() {
   };
 
   return (
-    <div>
+    <div className={styles.page}>
       <h1>Wasm MDX Compile Example</h1>
       <textarea
         onChange={handleChange}
@@ -39,6 +39,8 @@ export default function Wasm() {
         cols={50}
         style={{ width: "100%", marginBottom: "1rem" }}
       />
+      <hr />
+      <MDXRenderer compiledCode={compiledMDX} />
       <hr />
       <pre>{compiledMDX}</pre>
     </div>
