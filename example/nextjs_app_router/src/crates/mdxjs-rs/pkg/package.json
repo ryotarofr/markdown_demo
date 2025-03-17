@@ -1,0 +1,15 @@
+{
+  "name": "mdxjs-rs",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "mdxjs_rs_bg.wasm",
+    "mdxjs_rs.js",
+    "mdxjs_rs.d.ts"
+  ],
+  "main": "mdxjs_rs.js",
+  "types": "mdxjs_rs.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}

@@ -2,23 +2,25 @@
 
 import { useEffect, useState } from 'react';
 import init, { compile_mdx } from '@/crates/mdxjs-rs/pkg/mdxjs_rs.js';
-import MDXRenderer from '@/components/Editor';
-
+import { MDX, MDX2 } from '@/config/md';
+import { MDXRenderer } from '@/util/MarkdownLexer';
 import styles from "./page.module.css";
+import { Button } from '@/components/Button/index.';
+
 
 export default function Wasm() {
-  const [source, setSource] = useState<string>("# Hello, MDX!");
+  const [source, setSource] = useState<string>(MDX2);
   const [compiledMDX, setCompiledMDX] = useState<string>("");
 
   useEffect(() => {
     (async () => {
-      await initWasm();
+      await _initWasm();
       const initialCompiled = compile_mdx(source);
       setCompiledMDX(initialCompiled);
     })();
   }, []);
 
-  async function initWasm() {
+  async function _initWasm() {
     await init();
   }
 
