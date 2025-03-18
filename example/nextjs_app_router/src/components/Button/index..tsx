@@ -10,11 +10,9 @@ import {
   useState,
 } from "react";
 
-import { useAuth } from "@/fn/context/AuthContext";
-import { TabIndex, TabIndexes } from "@/fn/state/useTabIndexes";
-import { Override } from "@/type/Override";
+import { Override } from "@/types/Override";
 
-import styles from "./Button.module.scss";
+// import styles from "./Button.module.scss";
 
 /**
  * ボタン入力
@@ -32,7 +30,7 @@ export const Button = forwardRef(function Button({
   /** `<button />`要素に渡す */
   ComponentPropsWithoutRef<"button">,
   {
-    tabIndex?: TabIndex;
+    // tabIndex?: TabIndex;
     simplified?: boolean;
     /** trueなら、参照モード時に非活性化 */
     denyReadOnly?: boolean;
@@ -42,13 +40,7 @@ export const Button = forwardRef(function Button({
     children?: ReactNode;
   }
 >, _ref: ForwardedRef<HTMLButtonElement>): ReactNode {
-  const tabIndexes = TabIndexes.from(tabIndex);
-  const auth = useAuth();
-  const userIsReadOnly = auth.authUser()
-    ?.authorities?.includes("MODE_READONLY")
-    ?? true /* fail safe. */;
-  const disabledByReadOnly = denyReadOnly && userIsReadOnly;
-  const disabled = disabledByReadOnly || propsDisabled;
+  const disabled = propsDisabled;
   const [active, setActive] = useState(false);
 
   const onClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -87,11 +79,10 @@ export const Button = forwardRef(function Button({
       type="button"
       {...wrappedProps}
       className={clsx(
-        !simplified && styles.Button,
-        active && styles.Active,
+        // !simplified && styles.Button,
+        // active && styles.Active,
         wrappedProps.className,
       )}
-      tabIndex={tabIndexes.latest}
       aria-disabled={disabled}
       onKeyDown={onKeyDown}
       onKeyUp={onKeyUp}

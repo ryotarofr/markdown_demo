@@ -63,5 +63,6 @@ export const MDX = [
 export const MDX2 = [
   'import { Button } from "./button.js";',
   '',
-  '<Button />',
+  '<Button>Button</Button>',
+  '',
 ].join('\n')

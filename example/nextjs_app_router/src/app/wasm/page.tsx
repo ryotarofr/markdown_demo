@@ -6,6 +6,7 @@ import { MDX, MDX2 } from '@/config/md';
 import { MDXRenderer } from '@/util/MarkdownLexer';
 import styles from "./page.module.css";
 import { Button } from '@/components/Button/index.';
+import CodeBlock from '@/components/sample';
 
 
 export default function Wasm() {
@@ -45,6 +46,8 @@ export default function Wasm() {
       <MDXRenderer compiledCode={compiledMDX} />
       <hr />
       <pre>{compiledMDX}</pre>
+      <Button>Button</Button>
+      <CodeBlock lang="js" value="console.log('Hello, world!');" />
     </div>
   );
 }

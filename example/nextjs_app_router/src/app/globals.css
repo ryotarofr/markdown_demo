@@ -25,13 +25,13 @@ html.dark body {
 }
 
 
-.shiki.shiki-themes.vitesse-light {
+pre {
   background-color: var(--pre-light-bg) !important;
 }
 
-.dark .shiki.shiki-themes.vitesse-dark {
+/* pre {
   background-color: var(--pre-dark-bg) !important;
-}
+} */
 
 .line.diff.remove {
   opacity: 0.8;
@@ -86,7 +86,7 @@ html.dark body {
   --shiki-theme: var(--shiki--dark);
 }
 
-.shiki {
+pre {
   background-color: var(--shiki--light, var(--_s-light-bg))
     var(--shiki--dark, var(--_s-dark-bg)) var(--shiki--nord, var(--_s-nord-bg))
     var(--shiki--min-light, var(--_s-min-light-bg))
