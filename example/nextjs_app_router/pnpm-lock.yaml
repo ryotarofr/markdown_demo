@@ -14,9 +14,15 @@ importers:
       '@mdx-js/react':
         specifier: ^3.1.0
         version: 3.1.0(@types/react@19.0.10)(react@19.0.0)
+      '@wooorm/starry-night':
+        specifier: ^3.7.0
+        version: 3.7.0
       bright:
         specifier: ^1.0.0
         version: 1.0.0(react@19.0.0)
+      hast-util-to-dom:
+        specifier: ^4.0.1
+        version: 4.0.1
       next:
         specifier: 15.1.7
         version: 15.1.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -538,6 +544,9 @@ packages:
 
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
+
+  '@wooorm/starry-night@3.7.0':
+    resolution: {integrity: sha512-Gg3yXUub8jwz10x4PAeMjmgYzzwUVMGXWfk33jA32XL1iQX9lt8798943ONpjnJIyYSeDysxI8gMNegCU38low==}
 
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -1169,6 +1178,9 @@ packages:
   hast-util-sanitize@4.1.0:
     resolution: {integrity: sha512-Hd9tU0ltknMGRDv+d6Ro/4XKzBqQnP/EZrpiTbpFYfXv/uOhWeKc+2uajcbEvAEH98VZd7eII2PiXm13RihnLw==}
 
+  hast-util-to-dom@4.0.1:
+    resolution: {integrity: sha512-z1VE7sZ8uFzS2baF3LEflX1IPw2gSzrdo3QFEsyoi23MkCVY3FoE9x6nLgOgjwJu8VNWgo+07iaxtONhDzKrUQ==}
+
   hast-util-to-estree@3.1.2:
     resolution: {integrity: sha512-94SDoKOfop5gP8RHyw4vV1aj+oChuD42g08BONGAaWFbbO6iaWUqxk7SWfGybgcVzhK16KifZr3zD2dqQgx3jQ==}
 
@@ -1212,6 +1224,9 @@ packages:
   import-fresh@3.3.1:
     resolution: {integrity: sha512-TR3KfrTZTYLPB6jUjfx6MF9WcWrHL9su5TObK4ZkYgBdWKPOFoSoQIdEuTuR82pmtxH2spWG9h6etwfr1pLBqQ==}
     engines: {node: '>=6'}
+
+  import-meta-resolve@4.1.0:
+    resolution: {integrity: sha512-I6fiaX09Xivtk+THaMfAwnA3MVA5Big1WHF1Dfx9hFuvNIWpXnorlkzhcQf6ehrqQiiZECRt1poOAkPmer3ruw==}
 
   imurmurhash@0.1.4:
     resolution: {integrity: sha512-JmXMZ6wuvDmLiHEml9ykzqO6lwFbof0GG4IkcGaENdCRDDmMVnny7s5HsIgHCbaq0w2MyPhDqkhTUgS2LU2PHA==}
@@ -2325,6 +2340,12 @@ packages:
   vfile@6.0.3:
     resolution: {integrity: sha512-KzIbH/9tXat2u30jf+smMwFCsno4wHVdNmzFyL+T/L3UGqqk6JKfVqOFOZEpZSHADH1k40ab6NUIXZq422ov3Q==}
 
+  vscode-oniguruma@2.0.1:
+    resolution: {integrity: sha512-poJU8iHIWnC3vgphJnrLZyI3YdqRlR27xzqDmpPXYzA93R4Gk8z7T6oqDzDoHjoikA2aS82crdXFkjELCdJsjQ==}
+
+  vscode-textmate@9.2.0:
+    resolution: {integrity: sha512-rkvG4SraZQaPSN/5XjwKswdU0OP9MF28QjrYzUBbhb8QyG3ljB1Ky996m++jiI7KdiAP2CkBiQZd9pqEDTClqA==}
+
   web-namespaces@2.0.1:
     resolution: {integrity: sha512-bKr1DkiNa2krS7qxNtdrtHAmzuYGFQLiQ13TsorsdT6ULTkPLKuu5+GsFpDlg6JFjUTwX2DyhMPG2be8uPrqsQ==}
 
@@ -2805,6 +2826,13 @@ snapshots:
       - supports-color
 
   '@ungap/structured-clone@1.3.0': {}
+
+  '@wooorm/starry-night@3.7.0':
+    dependencies:
+      '@types/hast': 3.0.4
+      import-meta-resolve: 4.1.0
+      vscode-oniguruma: 2.0.1
+      vscode-textmate: 9.2.0
 
   acorn-jsx@5.3.2(acorn@8.14.0):
     dependencies:
@@ -3653,6 +3681,12 @@ snapshots:
     dependencies:
       '@types/hast': 2.3.10
 
+  hast-util-to-dom@4.0.1:
+    dependencies:
+      '@types/hast': 3.0.4
+      property-information: 7.0.0
+      web-namespaces: 2.0.1
+
   hast-util-to-estree@3.1.2:
     dependencies:
       '@types/estree': 1.0.6
@@ -3766,6 +3800,8 @@ snapshots:
     dependencies:
       parent-module: 1.0.1
       resolve-from: 4.0.0
+
+  import-meta-resolve@4.1.0: {}
 
   imurmurhash@0.1.4: {}
 
@@ -5553,6 +5589,10 @@ snapshots:
     dependencies:
       '@types/unist': 3.0.3
       vfile-message: 4.0.2
+
+  vscode-oniguruma@2.0.1: {}
+
+  vscode-textmate@9.2.0: {}
 
   web-namespaces@2.0.1: {}
 

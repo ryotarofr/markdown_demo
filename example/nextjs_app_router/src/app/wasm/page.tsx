@@ -7,6 +7,7 @@ import { MDXRenderer } from '@/util/MarkdownLexer';
 import styles from "./page.module.css";
 import { Button } from '@/components/Button/index.';
 import CodeBlock from '@/components/sample';
+import Highlighter from '@/util/Highlighter';
 
 
 export default function Wasm() {
@@ -34,6 +35,7 @@ export default function Wasm() {
 
   return (
     <div className={styles.page}>
+      <Highlighter />
       <h1>Wasm MDX Compile Example</h1>
       <textarea
         onChange={handleChange}
@@ -47,8 +49,7 @@ export default function Wasm() {
       <hr />
       <pre>{compiledMDX}</pre>
       <Button>Button</Button>
-      <CodeBlock lang="js" value="console.log('Hello, world!');" />
-    </div>
+    </div >
   );
 }
 
