@@ -1,32 +1,26 @@
-## 2025_3_16
-next.js(app router) でいくつか検証
+# マークダウンデモ
+next.js(app router) で検証中。
 
-AST/VDOM に Shiki を使うのは避けたほうがいい？
--> 文字列を生成するため再解析する必要があるため
+## 概要
+`markdown-rs` を使用して、コンパイルした関数を WebAssembly 経由で JavaScript から呼び出す。
 
-public/*jsxをビルドするコマンド
-esbuild public/button.tsx --bundle --format=esm --external:react --outfile=public/button.ts
+## 機能
+- [x] syntax highlight
+- [x] custom componennt (事前にコンパイルした js, jsx を利用可能) 
+-> 他サービス(qiita,zenn)では独自のマークダウン記法などを作成していないのでマークダウンをコピペで転用する場合の考慮が必要なのか？
+- [ ] github ファイルのインポート
+- [ ] ...other
 
-todo
-- [ ] カスタムコンポーネントでapi通信できるか確認
-- [x] ハイライト使えるか確認
-- [ ] 数式とかのプラグインを見る -> markdown-rs オプションの追加でできるらしい
-- [x] リファクタリング
-
-- [x] codeblock 内にcopyボタン作る
-
-- [ ] tab
-<Tab>
-```js
-<!-- tab1 -->
-
+### wasm build command
+```bash
+wasm-pack build --target web
 ```
 
-```css
-<!-- tab2 -->
+### custom componennt
+`public/` に jsx を作成してください。
+build 後、js として利用可能です。
 
+```bash
+# build
+esbuild public/hoge.jsx --bundle --format=esm --external:react --outfile=public/hoge.js
 ```
-</Tab>
-
-
-- [ ] マークダウンの方にハイライトを当てる(vscodeのマークダウンみたいに)
