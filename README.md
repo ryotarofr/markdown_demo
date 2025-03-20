@@ -1,37 +1,32 @@
-# remark-markdown-unist
+## 2025_3_16
+next.js(app router) でいくつか検証
 
-A custom plugin for remark. You can easily add it with [`unified`](https://github.com/unifiedjs/unified).
+AST/VDOM に Shiki を使うのは避けたほうがいい？
+-> 文字列を生成するため再解析する必要があるため
 
-## Install
+public/*jsxをビルドするコマンド
+esbuild public/button.tsx --bundle --format=esm --external:react --outfile=public/button.ts
 
-This package is [ESM](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c) only. In Node.js (version 16+), install with [npm](https://docs.npmjs.com/cli/v11/commands/npm-install):
+todo
+- [ ] カスタムコンポーネントでapi通信できるか確認
+- [x] ハイライト使えるか確認
+- [ ] 数式とかのプラグインを見る -> markdown-rs オプションの追加でできるらしい
+- [x] リファクタリング
 
-```bash
-npm install remark-markdown-unist
-# or
-yarn add remark-markdown-unist
-# or
-pnpm install remark-markdown-unist
+- [x] codeblock 内にcopyボタン作る
+
+- [ ] tab
+<Tab>
+```js
+<!-- tab1 -->
+
 ```
 
-## Example
+```css
+<!-- tab2 -->
 
-````js
-// remarkCodeTabs
-const inputMarkdown = [
-    '```md',
-    '<!-- js:index.js -->',
-    'function sample() {',
-    '  return <></>;',
-    '}',
-    '',
-    '<!-- css:main.css -->',
-    'body {',
-    '  color: red;',
-    '}',
-    '```'
-  ].join('\n')
+```
+</Tab>
 
-const processor = unified().use(remarkParse).use(remarkCodeTabs)
-const parsedTree = processor.parse(inputMarkdown)
-````
+
+- [ ] マークダウンの方にハイライトを当てる(vscodeのマークダウンみたいに)
