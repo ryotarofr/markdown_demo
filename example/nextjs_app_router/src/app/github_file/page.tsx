@@ -36,7 +36,7 @@ export default function GithubFile() {
 
   return (
     <div>
-      <GitHubFileDisplay url={url} />
+      <GitHubFileDisplay />
     </div>
   )
 }

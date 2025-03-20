@@ -6,13 +6,12 @@ import { MDX, MDX2 } from '@/config/md';
 import { MDXRenderer } from '@/util/MarkdownLexer';
 import styles from "./page.module.css";
 import { Button } from '@/components/Button/index.';
-import CodeBlock from '@/components/sample';
-import Highlighter from '@/util/Highlighter';
 
 
 export default function Wasm() {
-  const [source, setSource] = useState<string>(MDX2);
+  const [source, setSource] = useState<string>(MDX);
   const [compiledMDX, setCompiledMDX] = useState<string>("");
+  const [showTree, setShowTree] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
@@ -35,7 +34,6 @@ export default function Wasm() {
 
   return (
     <div className={styles.page}>
-      <Highlighter />
       <h1>Wasm MDX Compile Example</h1>
       <textarea
         onChange={handleChange}
@@ -47,8 +45,8 @@ export default function Wasm() {
       <hr />
       <MDXRenderer compiledCode={compiledMDX} />
       <hr />
-      <pre>{compiledMDX}</pre>
-      <Button>Button</Button>
+      <Button onClick={() => setShowTree((prev) => !prev)}>{showTree ? "close" : "show"} Tree</Button>
+      {showTree && <pre>{compiledMDX}</pre>}
     </div >
   );
 }

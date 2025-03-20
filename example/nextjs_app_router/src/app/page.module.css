@@ -6,15 +6,7 @@
   --button-primary-hover: #383838;
   --button-secondary-hover: #f2f2f2;
 
-  /* display: grid; */
-  /* grid-template-rows: 20px 1fr 20px; */
-  align-items: center;
-  /* justify-items: center; */
-  margin-left: auto;
-  margin-right: auto;
-  /* min-height: 100svh; */
-  /* max-width: 70vw; */
-  /* padding: 80px; */
-  /* gap: 64px; */
+  max-width: 75%;
+  margin: auto;
   font-family: var(--font-geist-sans);
 }

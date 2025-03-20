@@ -19,6 +19,7 @@ html.dark body {
 
 pre {
   background-color: var(--pre-light-bg) !important;
+  padding: 8px;
 }
 
 /* pre {
