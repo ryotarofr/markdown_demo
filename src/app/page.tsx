@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import init, { compile_mdx } from '@/crates/mdxjs-rs/pkg/mdxjs_rs.js';
-import { MDX2 } from '@/config/md';
 import { MDXRenderer } from '@/util/MarkdownLexer';
 import styles from "./page.module.css";
 import { Button } from '@/components/Button/index.';
@@ -10,7 +9,7 @@ import GitHubFileDisplay from '@/components/GitHubFileDisplay';
 
 
 export default function Page() {
-  const [source, setSource] = useState<string>(MDX2);
+  const [source, setSource] = useState<string>("");
   const [compiledMDX, setCompiledMDX] = useState<string>("");
   const [showTree, setShowTree] = useState<boolean>(false);
 
