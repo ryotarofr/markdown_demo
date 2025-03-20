@@ -8,6 +8,7 @@ next.js(app router) で検証中。
 - [x] syntax highlight
 - [x] custom componennt (事前にコンパイルした js, jsx を利用可能) 
 -> 他サービス(qiita,zenn)では独自のマークダウン記法などを作成していないのでマークダウンをコピペで転用する場合の考慮が必要なのか？
+- [ ] 数式プラグイン
 - [ ] github ファイルのインポート
 - [ ] ...other
 

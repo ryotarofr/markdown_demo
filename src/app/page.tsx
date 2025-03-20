@@ -5,7 +5,6 @@ import init, { compile_mdx } from '@/crates/mdxjs-rs/pkg/mdxjs_rs.js';
 import { MDXRenderer } from '@/util/MarkdownLexer';
 import styles from "./page.module.css";
 import { Button } from '@/components/Button/index.';
-import GitHubFileDisplay from '@/components/GitHubFileDisplay';
 
 
 export default function Page() {
