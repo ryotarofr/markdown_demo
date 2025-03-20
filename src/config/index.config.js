@@ -10,7 +10,7 @@ import remarkExternalLinks from 'remark-external-links'
 import rehypeSlug from 'rehype-slug'
 import {config as syntaxHighlighterConfig} from './syntax-highlighter.config.mjs'
 import remarkTabsToMdx from '@/lib/remarkTabsToMdx'
-import {remarkVisitPlugin} from '@/lib/remarkVisitPlugin'
+// import {remarkVisitPlugin} from '@/lib/remarkVisitPlugin'
 
 
 /** @type {import('@mdx-js/mdx').CompileOptions} */

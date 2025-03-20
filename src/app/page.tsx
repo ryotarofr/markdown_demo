@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import init, { compile_mdx } from '@/crates/mdxjs-rs/pkg/mdxjs_rs.js';
-import { MDX, MDX2 } from '@/config/md';
+import { MDX2 } from '@/config/md';
 import { MDXRenderer } from '@/util/MarkdownLexer';
 import styles from "./page.module.css";
 import { Button } from '@/components/Button/index.';
-import { Input } from '@/components/Input';
 import GitHubFileDisplay from '@/components/GitHubFileDisplay';
 
 
@@ -21,7 +20,7 @@ export default function Page() {
       const initialCompiled = compile_mdx(source);
       setCompiledMDX(initialCompiled);
     })();
-  }, []);
+  }, [source]);
 
   async function _initWasm() {
     await init();

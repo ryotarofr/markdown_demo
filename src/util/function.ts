@@ -1,4 +1,4 @@
-import { common, createStarryNight } from "@wooorm/starry-night";
+import { common, createStarryNight, Grammar } from "@wooorm/starry-night";
 import { toDom } from "hast-util-to-dom";
 
 /**
@@ -76,10 +76,18 @@ export async function highlightCode({ containerRef }: { containerRef: React.RefO
   });
 }
 
+interface StarryNight {
+  flagToScope: (flag: string) => string | undefined;
+  highlight: (text: string, scope: string) => any;
+  missingScopes: () => ReadonlyArray<string>;
+  register: (grammars: ReadonlyArray<Readonly<Grammar>>) => Promise<undefined>;
+  scopes: () => ReadonlyArray<string>;
+}
 /**
  * Highlight the code block.
  */
-function highlightNode(node: HTMLElement, starryNight: any, prefix: string) {
+function highlightNode(node: HTMLElement, starryNight: StarryNight, prefix: string) {
+  console.log("starryNight", starryNight);
   const className = Array.from(node.classList).find((d) => d.startsWith(prefix));
   if (!className) return;
   const scope = starryNight.flagToScope(className.slice(prefix.length));

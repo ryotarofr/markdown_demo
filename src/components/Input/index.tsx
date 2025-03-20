@@ -33,8 +33,8 @@ import { Override } from "@/types/Override";
  * 入力欄のスタイル統一と挙動実装のための汎用`<input />`ラッパー。
  */
 export const Input = forwardRef(function Input({
-  tabIndex,
-  label,
+  // tabIndex,
+  // label,
   value: propsValue,
   setValue: propsSetValue,
   valueMapper = (it) => it,
@@ -43,13 +43,13 @@ export const Input = forwardRef(function Input({
   children,
   containerProps,
   stretch = false,
-  simplified = false,
+  // simplified = false,
   suppressWheelPropergation = false,
-  showClearButton: propsShowClearButton = true,
-  customValidations,
+  // showClearButton: propsShowClearButton = true,
+  // customValidations,
   readOnly = false,
   cooldownDuration = 0,
-  hiddenWarning = false,
+  // hiddenWarning = false,
   onInvalid,
   autoComplete = "off",
   ...wrappedProps
@@ -164,7 +164,7 @@ export const Input = forwardRef(function Input({
   // })();
   useEffect(() => {
     setValue?.(currentValue);
-  }, [currentValue]);
+  }, [currentValue, setValue]);
 
   const suppressScroll = (event: Event) =>
     event.stopPropagation();

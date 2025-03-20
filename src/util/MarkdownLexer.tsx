@@ -5,9 +5,17 @@ import * as React from "react";
 import * as ReactJSXRuntime from "react/jsx-runtime";
 import { highlightCode, loadComponent } from "./function";
 
+
+declare global {
+  interface Window {
+    React: typeof React;
+    jsxRuntime: typeof ReactJSXRuntime;
+  }
+}
+
 if (typeof window !== "undefined") {
-  (window as any).React = React;
-  (window as any).jsxRuntime = ReactJSXRuntime;
+  window.React = React;
+  window.jsxRuntime = ReactJSXRuntime;
 }
 
 export interface MDXRendererProps {

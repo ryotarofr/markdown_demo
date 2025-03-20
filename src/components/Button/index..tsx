@@ -20,9 +20,9 @@ import { Override } from "@/types/Override";
  * `<button />`ラッパー。
  */
 export const Button = forwardRef(function Button({
-  tabIndex,
-  simplified = false,
-  denyReadOnly = false,
+  // tabIndex,
+  // simplified = false,
+  // denyReadOnly = false,
   disabled: propsDisabled,
   children,
   ...wrappedProps

@@ -156,8 +156,9 @@ function __wbg_get_imports() {
     return imports;
 }
 
-function __wbg_init_memory(imports, memory) {
-
+function __wbg_init_memory(_imports, _memory) {
+    void _imports;
+    void _memory;
 }
 
 function __wbg_finalize_init(instance, module) {
