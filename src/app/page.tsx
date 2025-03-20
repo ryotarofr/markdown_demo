@@ -47,7 +47,7 @@ export default function Page() {
       <hr />
       <Button onClick={() => setShowTree((prev) => !prev)}>{showTree ? "close" : "show"} Tree</Button>
       {showTree && <pre>{compiledMDX}</pre>}
-      <GitHubFileDisplay />
+      {/* <GitHubFileDisplay /> */}
     </div >
   );
 }
