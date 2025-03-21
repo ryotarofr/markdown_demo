@@ -1,0 +1,66 @@
+.ComboBoxes {
+  --remove-button-size: 1em;
+  content: '';
+}
+
+.ComboBoxRow {
+  content: '';
+
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.ComboBox {
+  content: '';
+}
+
+.RemoveButton {
+  --size: .8em;
+  --size-on-hover: var(--remove-button-size);
+  cursor: pointer;
+  content: '';
+  position: relative;
+  width: var(--size-on-hover);
+
+  opacity: 0.8;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  > svg {
+    width: var(--size);
+    height: var(--size);
+  }
+
+  &:hover,
+  &:focus-within {
+    --size: var(--size-on-hover);
+    opacity: 1;
+  }
+
+  // animation
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    width: 60%;
+    height: 2px;
+    transform-origin: right top;
+    transform: scale(0, 1);
+
+    background: #000;
+    transition: transform 0.08s ease-out;
+  }
+
+  &:hover::after,
+  &:focus::after {
+    transform-origin: left top;
+    transform: scale(1, 1);
+  }
+}
+
+.DummyRemoveButton {
+  content: '';
+  width: var(--remove-button-size);
+}

@@ -1,0 +1,21 @@
+.Label {
+  content: '';
+  width: max-content;
+  line-height: 1em;
+
+  align-items: center;
+
+  font-weight: bold;
+  font-size: .9em;
+}
+
+@mixin badge {
+  content: '';
+
+  margin-left: .2em;
+  padding: .2em;
+  box-sizing: border-box;
+  border-radius: .75em;
+
+  font-size: .75em;
+}

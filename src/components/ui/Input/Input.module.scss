@@ -1,0 +1,174 @@
+/** スピンボタン削除 */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  margin: 0;
+
+  appearance: none;
+}
+
+.Input {
+  content: '';
+  width: max-content;
+
+  &:not(:focus-within, :hover) {
+    .ValueControllButton {
+      visibility: hidden;
+    }
+
+    .ToolTip {
+      visibility: hidden;
+    }
+  }
+}
+
+.Header {
+  content: '';
+
+  padding-bottom: .2em;
+
+  display: flex;
+  align-items: center;
+}
+
+.Label {
+  content: '';
+}
+
+.Controls {
+  content: '';
+}
+
+.InputContainer {
+  content: '';
+  position: relative;
+  height: 100%;
+}
+
+.InputSizeDetector {
+  content: '';
+  min-width: 1em;
+  line-height: 100%;
+
+  padding-left: .25em;
+  opacity: 0;
+
+  display: inline-block;
+  overflow: hidden;
+
+  white-space: nowrap;
+
+  &::before {
+    content: '';
+  }
+
+  &:empty::before {
+    content: attr(data-placeholder);
+  }
+}
+
+.RawInput {
+  content: '';
+  width: 100%;
+
+  box-sizing: border-box;
+  background-color: color-mix(in srgb, var(--color-mode) 70%, white);
+  box-shadow: inset 0 0 2px hsla(var(--color-main-hsl), .5);
+  border-bottom: 2px solid hsla(var(--color-main-hsl), 20%);
+  outline: unset;
+  transition: 0.15s;
+
+  color: var(--color-main);
+
+  &:disabled {
+    opacity: .6;
+  }
+
+  &:invalid {
+    border-bottom-color: var(--color-warn);
+
+    &:hover,
+    &:focus-within {
+      border-bottom-color: hsla(var(--color-warn-hsl), 60%);
+    }
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  &:not(:disabled, :invalid) {
+    &:hover,
+    &:focus-within {
+      border-bottom-color: var(--color-em);
+    }
+  }
+
+  &.Required {
+    background-color: color-mix(in srgb, var(--color-mode) 50%, rgb(251, 255, 36));
+  }
+
+  &.RequiredNull {
+    background-color: rgb(255, 0, 0);
+  }
+
+  &.ReadOnly {
+    background-color: color-mix(in srgb, var(--color-mode) 70%, rgb(105, 105, 105));
+
+    caret-color: transparent;
+  }
+}
+
+.NotSimplified {
+  padding-left: .25em;
+
+  text-align: inherit;
+}
+
+.Simplified {
+  display: inline-block;
+
+  &[type='number']::-webkit-inner-spin-button,
+  &[type='number']::-webkit-outer-spin-button {
+    position: absolute;
+  }
+}
+
+.Stretch {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.ValueControllButton {
+  content: '';
+
+  margin-left: .1em;
+  padding: .05em;
+  opacity: 0.6;
+
+  display: inline-flex;
+  align-items: center;
+
+  font-size: .8em;
+
+  > svg {
+    width: 1em;
+    height: 1em;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.Hidden {
+  display: none;
+}
+
+.Invisible {
+  visibility: hidden;
+}
+
+input[type='file']::after {
+  content: '';
+}
