@@ -123,6 +123,7 @@ function addCopyButton(node: HTMLElement) {
   copyIconContainer.addEventListener("click", () => {
     navigator.clipboard.writeText(node.textContent || "")
       .then(() => {
+        // TODO! ここに toast を入れる
         console.log("Code copied to clipboard!");
       })
       .catch((error) => {
