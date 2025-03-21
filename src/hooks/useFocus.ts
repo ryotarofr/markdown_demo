@@ -1,9 +1,9 @@
 import { SetStateAction, useDeferredValue, useRef, useState } from "react";
 
-import { Setter } from "@/type/Setter";
+import { Setter } from "@/types/Setter";
 
-import { groupByToMap } from "../groupBy";
-import { range } from "../range";
+import { groupByToMap } from "@/fn/groupBy";
+import { range } from "@/fn/range";
 
 /**
  * 子要素の疑似フォーカス状態を実現するState
@@ -158,65 +158,65 @@ const getScrollFn = (
   toId: string | undefined,
   fromId: string | undefined,
 ) => {
-  if (!parent) return;
-  if (toId == null) return;
-  const to = ids.indexOf(toId);
-  const from = fromId == null
-    ? undefined
-    : ids.indexOf(fromId);
-  if (to < 0) return;
-  const behavior = "instant";
-  const direction = from == null
-    ? "here"
-    : from == to
+    if (!parent) return;
+    if (toId == null) return;
+    const to = ids.indexOf(toId);
+    const from = fromId == null
+      ? undefined
+      : ids.indexOf(fromId);
+    if (to < 0) return;
+    const behavior = "instant";
+    const direction = from == null
       ? "here"
-      : from < to
-        ? "forward"
-        : "backward";
-  const scrollTargetIndexRaw = direction === "forward"
-    ? to + 2
-    : direction === "backward"
-      ? to - 2
-      : to;
-  const maxIndex = ids.length - 1;
-  const scrollTargetIndex = getMoldedIndex(scrollTargetIndexRaw, maxIndex);
-  const scrollTargetId = ids[scrollTargetIndex];
-  if (scrollTargetId == null) return;
+      : from == to
+        ? "here"
+        : from < to
+          ? "forward"
+          : "backward";
+    const scrollTargetIndexRaw = direction === "forward"
+      ? to + 2
+      : direction === "backward"
+        ? to - 2
+        : to;
+    const maxIndex = ids.length - 1;
+    const scrollTargetIndex = getMoldedIndex(scrollTargetIndexRaw, maxIndex);
+    const scrollTargetId = ids[scrollTargetIndex];
+    if (scrollTargetId == null) return;
 
-  const visibleContents = ids
-    .map((id) => contents.get(id))
-    .filter((content) => content?.checkVisibility())
-    .flatMap((content) => content ? [content] : []);
-  const searchRange = range(to, { from: from ?? to, backwardExpansion: 3 })
-    .reverse();
-  const searchedVisibleContents = searchRange
-    .map((index) => visibleContents[index])
-    .flatMap((content) => content ? [content] : []);
+    const visibleContents = ids
+      .map((id) => contents.get(id))
+      .filter((content) => content?.checkVisibility())
+      .flatMap((content) => content ? [content] : []);
+    const searchRange = range(to, { from: from ?? to, backwardExpansion: 3 })
+      .reverse();
+    const searchedVisibleContents = searchRange
+      .map((index) => visibleContents[index])
+      .flatMap((content) => content ? [content] : []);
 
-  const edgeContent = searchedVisibleContents.find(() => true);
-  edgeContent?.scrollIntoView({
-    block: "nearest",
-    behavior,
-  });
+    const edgeContent = searchedVisibleContents.find(() => true);
+    edgeContent?.scrollIntoView({
+      block: "nearest",
+      behavior,
+    });
 
-  const viewedEdge = searchRange.length !== searchedVisibleContents.length;
-  if (viewedEdge) {
-    if (from == null) return;
-    if (from < to) {
-      parent.scroll({
-        top: parent.scrollHeight - parent.clientHeight,
-        behavior,
-      });
+    const viewedEdge = searchRange.length !== searchedVisibleContents.length;
+    if (viewedEdge) {
+      if (from == null) return;
+      if (from < to) {
+        parent.scroll({
+          top: parent.scrollHeight - parent.clientHeight,
+          behavior,
+        });
+      }
+      if (to < from) {
+        parent.scroll({
+          top: 0,
+          behavior,
+        });
+      }
+      return;
     }
-    if (to < from) {
-      parent.scroll({
-        top: 0,
-        behavior,
-      });
-    }
-    return;
-  }
-};
+  };
 
 const getLoopedIndex = (raw: number, max: number) => {
   const modded = raw % (max + 1);

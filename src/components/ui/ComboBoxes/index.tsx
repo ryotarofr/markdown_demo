@@ -6,14 +6,14 @@ import {
   SetStateAction,
 } from "react";
 
-import CrossIcon from "@/assets/icon/cross.svg?react";
-import { ComboBox } from "@/components/ui/form/ComboBox";
-import { Label } from "@/components/ui/form/Label";
+import { ComboBox } from "@/components/ui/ComboBox";
+import { Label } from "@/components/ui/Label";
 import { partializeSetState } from "@/fn/partializeSetState";
 // import { TabIndexes } from "@/fn/state/useTabIndexes";
-import { Override } from "@/type/Override";
+import { Override } from "@/types/Override";
 
 import styles from "./ComboBoxes.module.scss";
+import Image from "next/image";
 
 /**
  * 複数選択のためのマルチ`<ComboBox/>`コンテナ
@@ -48,14 +48,14 @@ export const ComboBoxes = <
     containerProps?: ComponentPropsWithoutRef<"fieldset">;
   }
 >): ReactNode => {
-  const tabIndexes = TabIndexes.from(wrappedProps.tabIndex);
+  // const tabIndexes = TabIndexes.from(wrappedProps.tabIndex);
   const suggestions = wrappedProps.suggestions;
   const getRemainings = (...keeps: Value[]): T => {
-    if (!unique) return suggestions;
+    if (!unique) return suggestions as T;
     const ignores = values
       .filter((it) => !keeps.includes(it));
     return Object.fromEntries(
-      Object.entries(suggestions)
+      Object.entries(suggestions || {})
         .filter(([key]) => !ignores.includes(key as Value)),
     ) as T;
   };
@@ -91,7 +91,7 @@ export const ComboBoxes = <
             )}
             suggestions={getRemainings(value)}
             value={value}
-            setValue={(next) => next == null || next == ""
+            setValue={(next: Value | undefined) => next == null || next == ""
               ? remove(index)
               : partializeSetState(setValues)(index)(next)
             }
@@ -101,11 +101,11 @@ export const ComboBoxes = <
             <button
               className={styles.RemoveButton}
               type="button"
-              tabIndex={tabIndexes.latest}
+              // tabIndex={tabIndexes.latest}
               onClick={() => remove(index)}
               disabled={!!wrappedProps.readOnly || wrappedProps.disabled}
             >
-              <CrossIcon />
+              <Image src="/icon/cross.svg" alt="" />
             </button>
           )}
         </div>
@@ -123,7 +123,7 @@ export const ComboBoxes = <
             )}
             suggestions={allRemainings}
             value={undefined}
-            setValue={(next) => next == null || next == ""
+            setValue={(next: Value | undefined) => next == null || next == ""
               ? undefined
               : setValues((prev) => ([
                 ...prev,

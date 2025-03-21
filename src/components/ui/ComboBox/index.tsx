@@ -11,10 +11,10 @@ import {
 } from "react";
 
 import { Floating } from "@/components/render/Floating";
-import { Input } from "@/components/ui/form/Input";
-import { useFocus } from "@/fn/state/useFocus";
-import { Override } from "@/type/Override";
-import { Setter } from "@/type/Setter";
+import { Input } from "@/components/ui/Input";
+import { useFocus } from "@/hooks/useFocus";
+import { Override } from "@/types/Override";
+import { Setter } from "@/types/Setter";
 
 import styles from "./ComboBox.module.scss";
 import { Option } from "./Option";
@@ -154,51 +154,51 @@ export const ComboBox = <
       event.stopPropagation();
     };
     switch (event.key) {
-    case "Escape": (() => {
-      if (!focus.active) return;
-      preventLaterEvents();
-      setFocusActive(false);
-    })(); break;
-    case "ArrowUp": (() => {
-      if (disabled) return;
-      preventLaterEvents();
-      focus.prev({
-        loop: !event.repeat,
-        effect: (e) => {
-          if (focus.active) return;
-          if (e.next.id == null) return;
-          setValue(e.next.id);
-        },
-      });
-    })(); break;
-    case "ArrowDown": (() => {
-      if (disabled) return;
-      preventLaterEvents();
-      focus.next({
-        loop: !event.repeat,
-        effect: (e) => {
-          if (focus.active) return;
-          if (e.next.id == null) return;
-          setValue(e.next.id);
-        },
-      });
-    })(); break;
-    case "Enter": (() => {
-      if (disabled) return;
-      preventLaterEvents();
-      if (focus.active) setValue(focus.id);
-      setFocusActive(!focus.active);
-    })(); break;
-    case "Backspace": (() => {
-      if (disabled) return;
-      event.stopPropagation();
-      if (typeable) return;
-      event.preventDefault();
-      setValue("");
-    })(); break;
-    case "Tab": (() => {
-      setFocusActive(false);
-    })(); break;
+      case "Escape": (() => {
+        if (!focus.active) return;
+        preventLaterEvents();
+        setFocusActive(false);
+      })(); break;
+      case "ArrowUp": (() => {
+        if (disabled) return;
+        preventLaterEvents();
+        focus.prev({
+          loop: !event.repeat,
+          effect: (e) => {
+            if (focus.active) return;
+            if (e.next.id == null) return;
+            setValue(e.next.id);
+          },
+        });
+      })(); break;
+      case "ArrowDown": (() => {
+        if (disabled) return;
+        preventLaterEvents();
+        focus.next({
+          loop: !event.repeat,
+          effect: (e) => {
+            if (focus.active) return;
+            if (e.next.id == null) return;
+            setValue(e.next.id);
+          },
+        });
+      })(); break;
+      case "Enter": (() => {
+        if (disabled) return;
+        preventLaterEvents();
+        if (focus.active) setValue(focus.id);
+        setFocusActive(!focus.active);
+      })(); break;
+      case "Backspace": (() => {
+        if (disabled) return;
+        event.stopPropagation();
+        if (typeable) return;
+        event.preventDefault();
+        setValue("");
+      })(); break;
+      case "Tab": (() => {
+        setFocusActive(false);
+      })(); break;
     }
   };
 
@@ -228,7 +228,7 @@ export const ComboBox = <
       setValue={setValue}
       valueMapper={findViewValue}
       setRawValue={setRawInput}
-      rawValueMapper={getSuggestionKey}
+      // rawValueMapper={getSuggestionKey}
       readOnly={readOnly || filterable ? readOnly : "trueWithoutLabel"}
       disabled={disabled}
       customValidations={{

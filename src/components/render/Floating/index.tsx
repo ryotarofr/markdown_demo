@@ -17,8 +17,8 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 
-import { useEffectEvent } from "@/fn/state/useEffectEvent";
-import { Override } from "@/type/Override";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
+import { Override } from "@/types/Override";
 
 import styles from "./Floating.module.scss";
 
@@ -97,7 +97,7 @@ export const Floating = forwardRef(function Floating<
   const onMount = (element: AsElement) => {
     if (!element) return;
     ref.current = element;
-    visibleObserver.observe(element, { attributes: true });
+    visibleObserver.observe(element as Node, { attributes: true });
   };
 
   /**
@@ -142,5 +142,5 @@ export const Floating = forwardRef(function Floating<
 
 type HTMLElementFrom<T>
   = T extends DetailedHTMLFactory<HTMLAttributes<unknown>, infer Element>
-    ? Element
-    : never;
+  ? Element
+  : never;
