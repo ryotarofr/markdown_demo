@@ -4,8 +4,8 @@ import {
   ReactNode,
 } from "react";
 
-import { Input } from "@/components/ui/form/Input";
-import { Override } from "@/type/Override";
+import { Input } from "@/components/ui/Input";
+import { Override } from "@/types/Override";
 
 import styles from "./NumberInput.module.scss";
 
@@ -75,7 +75,7 @@ export const NumberInput = ({
     // 矢印キー (Arrow Up/Down) のデフォルト動作を無効化
     if (e.key === "ArrowUp" || e.key === "ArrowDown") {
       e.preventDefault();
-    }else if(onlyNumber && (e.key === "e" || e.key === "+" || e.key === "." || e.key === "-")){
+    } else if (onlyNumber && (e.key === "e" || e.key === "+" || e.key === "." || e.key === "-")) {
       e.preventDefault();
     }
   };
