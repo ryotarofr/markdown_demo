@@ -1,34 +1,77 @@
 "use client"
 
-import { useEffect, useState } from 'react';
-import init, { compile_mdx } from '@/crates/mdxjs-rs/pkg/mdxjs_rs.js';
-import { MDXRenderer } from '@/util/MarkdownLexer';
+import
+React,
+{
+  useEffect,
+  useRef,
+  useState,
+  Dispatch,
+  SetStateAction,
+  ComponentType,
+  ChangeEvent,
+  RefObject,
+}
+  from "react";
+import * as ReactJSXRuntime from "react/jsx-runtime";
 import styles from "./page.module.css";
-import { Button } from '@/components/Button/index.';
+import { Button } from '@/components/ui/Button/index.';
+import { highlightCode, loadComponent } from '@/util/function';
 
+declare global {
+  interface Window {
+    React: typeof React;
+    jsxRuntime: typeof ReactJSXRuntime;
+  }
+}
+
+if (typeof window !== "undefined") {
+  window.React = React;
+  window.jsxRuntime = ReactJSXRuntime;
+}
+
+import init, { compile_mdx } from '@/crates/mdxjs-rs/pkg/mdxjs_rs.js';
+const P = {
+  init: async (initFunc: typeof init) => await initFunc(),
+  from: async (
+    text: string,
+    _setComponent: Dispatch<SetStateAction<ComponentType | null>>,
+    containerRef: RefObject<HTMLDivElement | null>
+  ) => {
+    return {
+      load: async () => await loadComponent(
+        { compiledCode: compile_mdx(text), setComponent: _setComponent }
+      ),
+      insert: async () => await highlightCode({ containerRef })
+    }
+  },
+  testView: (
+    text: string,
+    setVal: Dispatch<SetStateAction<string>>
+  ) => {
+    return setVal(compile_mdx(text));
+  }
+}
 
 export default function Page() {
-  const [source, setSource] = useState<string>("");
-  const [compiledMDX, setCompiledMDX] = useState<string>("");
+  const [mdxSource, setMdxSource] = useState("## Hello, world!");
+  const [compiledMDX, setCompiledMDX] = useState<string>(""); // debug
   const [showTree, setShowTree] = useState<boolean>(false);
+  const [Component, _setComponent] = useState<ComponentType | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     (async () => {
-      await _initWasm();
-      const initialCompiled = compile_mdx(source);
-      setCompiledMDX(initialCompiled);
+      await P.init(init);
     })();
-  }, [source]);
+  }, []);
 
-  async function _initWasm() {
-    await init();
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newSource = e.target.value;
-    setSource(newSource);
-    const newCompiled = compile_mdx(newSource);
-    setCompiledMDX(newCompiled);
+  const handleChange = async (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setMdxSource(e.target.value);
+    const result = await P.from(e.target.value, _setComponent, containerRef);
+    await result.load();
+    await result.insert();
+    P.testView(e.target.value, setCompiledMDX);
   };
 
   return (
@@ -36,13 +79,15 @@ export default function Page() {
       <h1>Wasm MDX Compile Example</h1>
       <textarea
         onChange={handleChange}
-        value={source}
+        value={mdxSource}
         rows={10}
         cols={50}
         style={{ width: "100%", marginBottom: "1rem" }}
       />
       <hr />
-      <MDXRenderer compiledCode={compiledMDX} />
+      <div ref={containerRef}>
+        {Component ? <Component /> : <div>Loading MDX content...</div>}
+      </div>
       <hr />
       <Button onClick={() => setShowTree((prev) => !prev)}>{showTree ? "close" : "show"} Tree</Button>
       {showTree && <pre>{compiledMDX}</pre>}
@@ -50,4 +95,3 @@ export default function Page() {
     </div >
   );
 }
-
