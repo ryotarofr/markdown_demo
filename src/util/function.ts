@@ -1,62 +1,60 @@
 import { common, createStarryNight, Grammar } from "@wooorm/starry-night";
 import { toDom } from "hast-util-to-dom";
 
-/**
- * Load the compiled code as a module and set it as a component.
- */
-export async function loadComponent(
-  {
-    compiledCode,
-    setComponent
-  }: {
+
+export class loadComponent {
+  adjustedCode: string;
+
+  constructor(
     compiledCode: string,
+    pathArray: string[],
     setComponent: React.Dispatch<React.SetStateAction<React.ComponentType | null>>
-  }) {
-  let adjustedCode = compiledCode;
+  ) {
 
-  /**
-   * adjust compile_mdx(source) to loadComponent(compiledCode, setComponent)
-   * 
-   * Example:
-   *     options) file path
-   * 
-   * options
-   * - delete
-   * - correction
-   */
+    this.adjustedCode = compiledCode;
+    this.adjust(pathArray);
 
-  /** delete) react/jsx-runtime, react */
-  adjustedCode = adjustedCode
-    .replace(/import\s+\{[^}]+\}\s+from\s+["']react\/jsx(-dev)?-runtime["'];?/g, '')
-    .replace(/import\s+\*\s+as\s+React\s+from\s+["']react["'];?/g, '')
-    .replace(/import\s+\{.*?\}\s+from\s+["']react["'];?/g, '');
+    const blob = new Blob([this.adjustedCode], { type: "application/javascript" });
+    const url = URL.createObjectURL(blob);
+    try {
+      import(/* webpackIgnore: true */ url).then((mod) => {
+        setComponent(() => mod.default);
+      }).catch((error) => {
+        console.error("Error loading module:", error);
+      });
+    } catch (error) {
+      console.error("Error loading module:", error);
+    }
+  }
 
-  /**  correction) window.jsxRuntime */
-  adjustedCode = adjustedCode
-    .replace(/\b_jsxDEV\(/g, 'window.jsxRuntime.jsxDEV(')
-    .replace(/\b_jsxs\(/g, 'window.jsxRuntime.jsxs(')
-    .replace(/\b_jsx\(/g, 'window.jsxRuntime.jsx(')
-    .replace(/(?<!window\.jsxRuntime\.)\bjsxDEV\(/g, 'window.jsxRuntime.jsxDEV(')
-    .replace(/(?<!window\.jsxRuntime\.)\bjsx\(/g, 'window.jsxRuntime.jsx(')
-    .replace(/\b(_Fragment|Fragment)\b/g, 'window.jsxRuntime.Fragment');
+  private delete() {
+    const A = /import\s+\{[^}]+\}\s+from\s+["']react\/jsx(-dev)?-runtime["'];?/g;
+    this.adjustedCode = this.adjustedCode.replace(new RegExp(A, "g"), "");
+  }
 
-  /** correction) button.js */
-  adjustedCode = adjustedCode.replace(
-    /from\s+["']\.\/button\.js["']/g,
-    `from "${window.location.origin}/button.js"`
-  );
+  private convertConst() {
+    const A = /\b_jsxs\(/g;
+    const B = /\b_jsx\(/g;
+    const C = /\b(_Fragment|Fragment)\b/g;
+    this.adjustedCode = this.adjustedCode
+      .replace(new RegExp(A, "g"), "window.jsxRuntime.jsxs(")
+      .replace(new RegExp(B, "g"), "window.jsxRuntime.jsx(")
+      .replace(new RegExp(C, "g"), "window.jsxRuntime.Fragment");
+  }
 
-  // ----------------------------------------
-  // add other components here ...
-  // ----------------------------------------
+  private convertCustom(pathArray: string[]) {
+    for (const p of pathArray) {
+      this.adjustedCode = this.adjustedCode.replace(
+        new RegExp(`from\\s+["']\\.\\/${p}["']`, "g"),
+        `from "${window.location.origin}/${p}"`
+      );
+    }
+  }
 
-  const blob = new Blob([adjustedCode], { type: "application/javascript" });
-  const url = URL.createObjectURL(blob);
-  try {
-    const mod = await import(/* webpackIgnore: true */ url);
-    setComponent(() => mod.default);
-  } catch (error) {
-    console.error("Error loading module:", error);
+  private adjust(pathArray: string[]) {
+    this.delete();
+    this.convertConst();
+    this.convertCustom(pathArray);
   }
 }
 
@@ -87,7 +85,6 @@ interface StarryNight {
  * Highlight the code block.
  */
 function highlightNode(node: HTMLElement, starryNight: StarryNight, prefix: string) {
-  console.log("starryNight", starryNight);
   const className = Array.from(node.classList).find((d) => d.startsWith(prefix));
   if (!className) return;
   const scope = starryNight.flagToScope(className.slice(prefix.length));
@@ -123,7 +120,7 @@ function addCopyButton(node: HTMLElement) {
   copyIconContainer.addEventListener("click", () => {
     navigator.clipboard.writeText(node.textContent || "")
       .then(() => {
-        // TODO! ここに toast を入れる
+        // TODO! ここに toast が入る
         console.log("Code copied to clipboard!");
       })
       .catch((error) => {

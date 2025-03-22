@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { useState } from 'react';
-import { Input } from './Input';
-import { Button } from './Button/index.';
+import { Input } from './ui/Input';
+import { Button } from './ui/Button/index.';
 
 export default function GitHubFileDisplay() {
   const [content, setContent] = useState('');

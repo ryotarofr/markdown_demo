@@ -3,8 +3,8 @@ import {
   SetStateAction,
 } from "react";
 
-import { NestedKeyOf } from "@/type/NestedKeyOf";
-import { NestedValueOf } from "@/type/NestedValueOf";
+import { NestedKeyOf } from "@/types/NestedKeyOf";
+import { NestedValueOf } from "@/types/NestedValueOf";
 
 type PartializedTuple<T> = T extends [infer Head, ...infer Tails]
   ? [Head] | [Head, ...PartializedTuple<Tails>]
@@ -39,7 +39,7 @@ export const partializeSetStateDeep
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         partializeSetState(prev /* setState */)(it /* Keys[index] */) /* T[Keys[..index]] */,
-      setState) as Dispatch<SetStateAction<NestedValueOf<T, Keys>>>;
+        setState) as Dispatch<SetStateAction<NestedValueOf<T, Keys>>>;
 /**
  * partializeSetState の1階層のみ版
  */
@@ -52,11 +52,11 @@ export const partializeSetState
             ? setStateAction(prev?.[key] as T[Key])
             : setStateAction;
           if (Array.isArray(prev) && typeof key === "number") {
-            const prevArray = [ ...prev];
+            const prevArray = [...prev];
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             prevArray[key] = next;
-            return [ ...prevArray ] as T;
+            return [...prevArray] as T;
           } else {
             return {
               ...prev,

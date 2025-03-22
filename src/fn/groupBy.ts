@@ -4,7 +4,7 @@ export const groupBy = <T>(
   array: readonly T[],
   prop: (v: T) => string,
 ) => {
-  return array.reduce((groups: {[key: string]: T[]}, item) => {
+  return array.reduce((groups: { [key: string]: T[] }, item) => {
     const key = prop(item);
     groups[key] = groups[key] ?? [];
     // suppress most recent loop.
@@ -29,7 +29,7 @@ export const groupByAny = <T, Key>(
     const values = (() => {
       const current = groups.find(([itKey]) => equalsFn(itKey, key))?.[1];
       if (current) return current;
-      const news = [];
+      const news: T[] = [];
       groups.push([key, news]);
       return news;
     })();
