@@ -79,7 +79,7 @@ export const ComboBox = <
     return currentKey;
   })();
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null) as React.RefObject<HTMLInputElement>;
   const pullTabRef = useRef<HTMLButtonElement>(null);
   const [rawInput, _setRawInput] = useState<string>("");
   const [initTrigger, setInitTrigger] = useState(false);
@@ -231,19 +231,19 @@ export const ComboBox = <
       // rawValueMapper={getSuggestionKey}
       readOnly={readOnly || filterable ? readOnly : "trueWithoutLabel"}
       disabled={disabled}
-      customValidations={{
-        suggestionContainValue: {
-          message: "選択肢に無い値は無効です",
-          checkIsInvalid: (suggestionKey) => {
-            if (suggestionKey === "" && !required) return;
-            if (freeInput) return;
-            const optionKey = getOptionKey(suggestionKey);
-            if (optionMap[optionKey] !== undefined) return;
-            return true;
-          },
-        },
-        ...wrappedProps.customValidations,
-      }}
+      // customValidations={{
+      //   suggestionContainValue: {
+      //     message: "選択肢に無い値は無効です",
+      //     checkIsInvalid: (suggestionKey) => {
+      //       if (suggestionKey === "" && !required) return;
+      //       if (freeInput) return;
+      //       const optionKey = getOptionKey(suggestionKey);
+      //       if (optionMap[optionKey] !== undefined) return;
+      //       return true;
+      //     },
+      //   },
+      //   ...wrappedProps.customValidations,
+      // }}
       onPointerDown={() => setFocusActive(true)}
       onKeyDown={onKeyDown}
     >

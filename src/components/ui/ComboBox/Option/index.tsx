@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { forwardRef, ReactNode, ForwardedRef } from "react";
 
-import { useFocus } from "@/fn/state/useFocus";
+import { useFocus } from "@/hooks/useFocus";
 
 import styles from "./Option.module.scss";
 

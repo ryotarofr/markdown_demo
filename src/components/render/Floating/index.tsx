@@ -3,11 +3,10 @@ import {
   ComponentPropsWithoutRef,
   createElement,
   CSSProperties,
-  DetailedHTMLFactory,
-  ForwardedRef,
-  forwardRef,
+  // DetailedHTMLFactory,
+  // ForwardedRef,
   HTMLAttributes,
-  ReactHTML,
+  // ReactHTML,
   ReactNode,
   RefObject,
   useEffect,
@@ -22,9 +21,7 @@ import { Override } from "@/types/Override";
 
 import styles from "./Floating.module.scss";
 
-export const Floating = forwardRef(function Floating<
-  As extends keyof ReactHTML = "div"
->({
+export const Floating = <As extends React.ElementType = 'div'>({
   as,
   anchorTarget,
   children,
@@ -36,10 +33,10 @@ export const Floating = forwardRef(function Floating<
     anchorTarget?: RefObject<HTMLElement>;
     children?: ReactNode;
   }
->, _ref: ForwardedRef<HTMLElementFrom<ReactHTML[As]>>): ReactNode {
-  type AsElement = HTMLElementFrom<ReactHTML[As]>;
-  const ref = useRef<AsElement>();
-  useImperativeHandle(_ref, () => ref.current!);
+>) => {
+  type AsElement = HTMLElementFrom<As>;
+  const ref = useRef<AsElement>(undefined);
+  useImperativeHandle(wrappedProps.ref, () => ref.current!);
 
   // 選択肢の描画位置の更新
   const [suggestPos, setSuggestPos] = useState<{
@@ -138,9 +135,9 @@ export const Floating = forwardRef(function Floating<
     ),
     rootElement,
   );
-});
+};
 
 type HTMLElementFrom<T>
-  = T extends DetailedHTMLFactory<HTMLAttributes<unknown>, infer Element>
+  = T extends HTMLAttributes<unknown>
   ? Element
   : never;

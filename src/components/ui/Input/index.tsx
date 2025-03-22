@@ -87,10 +87,10 @@ export const Input = forwardRef(function Input({
     /** trueならクリアボタンを表示 */
     showClearButton?: boolean;
     /** カスタムバリデーション */
-    customValidations?: Record<string, {
-      message: string;
-      checkIsInvalid: (value: string) => boolean | undefined;
-    }>;
+    // customValidations?: Record<string, {
+    //   message: string;
+    //   checkIsInvalid: (value: string) => boolean | undefined;
+    // }>;
     /**
      * `true`なら読込専用。`"trueWithoutLabel"`の際は描画には反映しない。
      * デフォルトは`false`。
@@ -123,8 +123,14 @@ export const Input = forwardRef(function Input({
 
   const [value, setValue] = [propsValue, propsSetValue];
   const [currentValue, setCurrentValue] = useState<string>(value ?? "");
-  useEffect(() => setCurrentValue(value ?? ""), [value]);
-  useEffect(() => setRawValue?.(currentValue), [setRawValue, currentValue]);
+  // useEffect(() => setCurrentValue(value ?? ""), [value]);
+  // useEffect(() => setRawValue?.(currentValue), [setRawValue, currentValue]);
+  useEffect(() => {
+    if (propsValue !== currentValue) {
+      setValue?.(currentValue);
+    }
+  }, [currentValue, propsValue, setValue]);
+
 
   // const warnMap = (() => {
   //   const defaultWarnMap: WarnMap = getWarnMap({
