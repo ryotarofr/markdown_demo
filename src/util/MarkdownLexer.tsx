@@ -41,9 +41,7 @@ const P = {
     containerRef: RefObject<HTMLDivElement | null>,
   ) => {
     return {
-      load: async () => {
-        new loadComponent(compile_mdx(md), pathArray, _setComponent);
-      },
+      load: async () => { new loadComponent(compile_mdx(md), pathArray, _setComponent) },
       insert: async () => await highlightCode({ containerRef })
     }
   },
