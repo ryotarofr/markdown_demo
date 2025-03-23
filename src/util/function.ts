@@ -1,9 +1,8 @@
 import { common, createStarryNight, Grammar } from "@wooorm/starry-night";
 import { toDom } from "hast-util-to-dom";
 
-
 export class loadComponent {
-  #adjustedCode: string;
+  #root: string;
 
   constructor(
     compiledCode: string,
@@ -11,10 +10,10 @@ export class loadComponent {
     setComponent: React.Dispatch<React.SetStateAction<React.ComponentType | null>>
   ) {
 
-    this.#adjustedCode = compiledCode;
+    this.#root = compiledCode;
     this.adjust(pathArray);
 
-    const blob = new Blob([this.#adjustedCode], { type: "application/javascript" });
+    const blob = new Blob([this.#root], { type: "application/javascript" });
     const url = URL.createObjectURL(blob);
     try {
       import(/* webpackIgnore: true */ url).then((mod) => {
@@ -27,39 +26,50 @@ export class loadComponent {
     }
   }
 
-  private delete() {
-    const A = /import\s+\{[^}]+\}\s+from\s+["']react\/jsx(-dev)?-runtime["'];?/g;
-    this.#adjustedCode = this.#adjustedCode.replace(new RegExp(A, "g"), "");
+  private insert(ext: string, code: string) {
+    // _jsx(_components.pre, {
+    //     children: _jsx(_components.code, {
+    //         className: "language-jsx",
+    //         children: 'const hoge = "hoge"\n'
+    //     })
+    // })
+    //
+    // jsx(components.pre, {
+    //     children: jsx(components.code, {
+    //         className: `language-${ext}`,
+    //         children: 'const hoge = "hoge"\n'
+    //     })
+    // })
+    //
+    // ext : langageの取得 -> 拡張子使う
+    // code: 
+    function pre() {
+      // TODO
+    }
   }
 
-  private convertConst() {
-    const A = /\b_jsxs\(/g;
-    const B = /\b_jsx\(/g;
-    const C = /\b(_Fragment|Fragment)\b/g;
-    this.#adjustedCode = this.#adjustedCode
-      .replace(new RegExp(A, "g"), "window.jsxRuntime.jsxs(")
-      .replace(new RegExp(B, "g"), "window.jsxRuntime.jsx(")
-      .replace(new RegExp(C, "g"), "window.jsxRuntime.Fragment");
-  }
+  /**
+   * compile_mdx にて生成された不要なインポート削除 & パスの調整
+   */
+  private adjust(pathArray: string[]) {
+    this.#root = this.#root
+      .replace(/import\s+\{[^}]+\}\s+from\s+["']react\/jsx(-dev)?-runtime["'];?/g, "")
+      .replace(/\b_jsxs\(/g, "window.jsxRuntime.jsxs(")
+      .replace(/\b_jsx\(/g, "window.jsxRuntime.jsx(")
+      .replace(/\b(_Fragment|Fragment)\b/g, "window.jsxRuntime.Fragment");
 
-  private convertCustom(pathArray: string[]) {
     for (const p of pathArray) {
-      this.#adjustedCode = this.#adjustedCode.replace(
-        new RegExp(`from\\s+["']\\.\\/${p}["']`, "g"),
+      const pattern = new RegExp(`from\\s+["']\\.\\/${p}["']`, "g");
+      this.#root = this.#root.replace(
+        pattern,
         `from "${window.location.origin}/${p}"`
       );
     }
   }
-
-  private adjust(pathArray: string[]) {
-    this.delete();
-    this.convertConst();
-    this.convertCustom(pathArray);
-  }
 }
 
 /**
- * Highlight the code block main.
+ * コードブロックにハイライトを適用
  */
 export async function highlightCode({ containerRef }: { containerRef: React.RefObject<HTMLDivElement | null> }) {
   const starryNight = await createStarryNight(common);
@@ -67,6 +77,7 @@ export async function highlightCode({ containerRef }: { containerRef: React.RefO
   const container = containerRef.current;
   if (!container) return;
   const nodes = Array.from(container.querySelectorAll("code"));
+  console.log(nodes);
 
   nodes.forEach((node) => {
     highlightNode(node, starryNight, prefix);

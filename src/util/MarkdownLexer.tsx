@@ -17,6 +17,7 @@ import * as ReactJSXRuntime from "react/jsx-runtime";
 
 import { Button } from '@/components/ui/Button/index.';
 import { highlightCode, loadComponent } from '@/util/function';
+import GitHubFileDisplay from "@/components/GitHubFileDisplay";
 
 declare global {
   interface Window {
@@ -37,7 +38,7 @@ const P = {
     md: string,
     pathArray: string[],
     _setComponent: Dispatch<SetStateAction<ComponentType | null>>,
-    containerRef: RefObject<HTMLDivElement | null>
+    containerRef: RefObject<HTMLDivElement | null>,
   ) => {
     return {
       load: async () => {
@@ -48,7 +49,7 @@ const P = {
   },
   testView: (
     md: string,
-    setVal: Dispatch<SetStateAction<string>>
+    setVal: Dispatch<SetStateAction<string>>,
   ) => {
     return setVal(compile_mdx(md));
   }
@@ -66,7 +67,7 @@ export default function MDX({ md, customComponentPath }: MDXProps) {
   const [Component, _setComponent] = useState<ComponentType | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const convert = async (iniFlg: boolean, value: string) => {
+  const convert = async (iniFlg: boolean, value: string): Promise<void> => {
     if (iniFlg) await P.init(init);
     P.testView(value, setCompiledMDX);
     const result = await P.from(value, customComponentPath, _setComponent, containerRef);
@@ -100,7 +101,7 @@ export default function MDX({ md, customComponentPath }: MDXProps) {
       <hr />
       <Button onClick={() => setShowTree((prev) => !prev)}>{showTree ? "close" : "show"} Tree</Button>
       {showTree && <pre>{compiledMDX}</pre>}
-      {/* <GitHubFileDisplay /> */}
+      <GitHubFileDisplay />
     </div >
   );
 }

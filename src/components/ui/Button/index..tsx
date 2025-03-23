@@ -21,7 +21,7 @@ import { Override } from "@/types/Override";
  */
 export const Button = forwardRef(function Button({
   // tabIndex,
-  // simplified = false,
+  simplified = false,
   // denyReadOnly = false,
   disabled: propsDisabled,
   children,
