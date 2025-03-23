@@ -66,8 +66,8 @@ export default function MDX({ md, customComponentPath }: MDXProps) {
   const [Component, _setComponent] = useState<ComponentType | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const convert = async (value: string) => {
-    await P.init(init);
+  const convert = async (iniFlg: boolean, value: string) => {
+    if (iniFlg) await P.init(init);
     P.testView(value, setCompiledMDX);
     const result = await P.from(value, customComponentPath, _setComponent, containerRef);
     await result.load();
@@ -75,12 +75,12 @@ export default function MDX({ md, customComponentPath }: MDXProps) {
   }
 
   useEffect(() => {
-    convert(md);
+    convert(true, md);
   }, []);
 
   const handleChange = async (e: ChangeEvent<HTMLTextAreaElement>) => {
     setMdxSource(e.target.value);
-    convert(e.target.value);
+    convert(false, e.target.value);
   };
 
   return (
