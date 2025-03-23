@@ -1,10 +1,10 @@
 /** スピンボタン削除 */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  margin: 0;
+// input[type="number"]::-webkit-inner-spin-button,
+// input[type="number"]::-webkit-outer-spin-button {
+//   margin: 0;
 
-  appearance: none;
-}
+//   appearance: none;
+// }
 
 .Input {
   content: '';
@@ -170,6 +170,6 @@ input[type="number"]::-webkit-outer-spin-button {
   visibility: hidden;
 }
 
-input[type='file']::after {
-  content: '';
-}
+// input[type='file']::after {
+//   content: '';
+// }
