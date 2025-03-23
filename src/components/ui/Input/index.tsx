@@ -124,8 +124,8 @@ export const Input = forwardRef(function Input({
 
   const [value, setValue] = [propsValue, propsSetValue];
   const [currentValue, setCurrentValue] = useState<string>(value ?? "");
-  // useEffect(() => setCurrentValue(value ?? ""), [value]);
-  // useEffect(() => setRawValue?.(currentValue), [setRawValue, currentValue]);
+  useEffect(() => setCurrentValue(value ?? ""), [value]);
+  useEffect(() => setRawValue?.(currentValue), [setRawValue, currentValue]);
   useEffect(() => {
     if (propsValue !== currentValue) {
       setValue?.(currentValue);
@@ -169,9 +169,9 @@ export const Input = forwardRef(function Input({
   //   ref.current?.setCustomValidity(hasInvalid ? invalidInfoJson : "");
   //   return hasInvalid;
   // })();
-  useEffect(() => {
-    setValue?.(currentValue);
-  }, [currentValue, setValue]);
+  // useEffect(() => {
+  //   setValue?.(currentValue);
+  // }, [currentValue, setValue]);
 
   const suppressScroll = (event: Event) =>
     event.stopPropagation();
