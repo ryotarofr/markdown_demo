@@ -3,7 +3,7 @@ import { toDom } from "hast-util-to-dom";
 
 
 export class loadComponent {
-  adjustedCode: string;
+  #adjustedCode: string;
 
   constructor(
     compiledCode: string,
@@ -11,10 +11,10 @@ export class loadComponent {
     setComponent: React.Dispatch<React.SetStateAction<React.ComponentType | null>>
   ) {
 
-    this.adjustedCode = compiledCode;
+    this.#adjustedCode = compiledCode;
     this.adjust(pathArray);
 
-    const blob = new Blob([this.adjustedCode], { type: "application/javascript" });
+    const blob = new Blob([this.#adjustedCode], { type: "application/javascript" });
     const url = URL.createObjectURL(blob);
     try {
       import(/* webpackIgnore: true */ url).then((mod) => {
@@ -29,14 +29,14 @@ export class loadComponent {
 
   private delete() {
     const A = /import\s+\{[^}]+\}\s+from\s+["']react\/jsx(-dev)?-runtime["'];?/g;
-    this.adjustedCode = this.adjustedCode.replace(new RegExp(A, "g"), "");
+    this.#adjustedCode = this.#adjustedCode.replace(new RegExp(A, "g"), "");
   }
 
   private convertConst() {
     const A = /\b_jsxs\(/g;
     const B = /\b_jsx\(/g;
     const C = /\b(_Fragment|Fragment)\b/g;
-    this.adjustedCode = this.adjustedCode
+    this.#adjustedCode = this.#adjustedCode
       .replace(new RegExp(A, "g"), "window.jsxRuntime.jsxs(")
       .replace(new RegExp(B, "g"), "window.jsxRuntime.jsx(")
       .replace(new RegExp(C, "g"), "window.jsxRuntime.Fragment");
@@ -44,7 +44,7 @@ export class loadComponent {
 
   private convertCustom(pathArray: string[]) {
     for (const p of pathArray) {
-      this.adjustedCode = this.adjustedCode.replace(
+      this.#adjustedCode = this.#adjustedCode.replace(
         new RegExp(`from\\s+["']\\.\\/${p}["']`, "g"),
         `from "${window.location.origin}/${p}"`
       );
