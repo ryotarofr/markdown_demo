@@ -73,7 +73,7 @@ input[type="number"]::-webkit-outer-spin-button {
   box-sizing: border-box;
   background-color: color-mix(in srgb, var(--color-mode) 70%, white);
   box-shadow: inset 0 0 2px hsla(var(--color-main-hsl), .5);
-  border-bottom: 2px solid hsla(var(--color-main-hsl), 20%);
+  border: 2px solid hsla(var(--color-main-hsl), 20%);
   outline: unset;
   transition: 0.15s;
 
@@ -94,6 +94,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
   /* stylelint-disable-next-line no-descending-specificity */
   &:not(:disabled, :invalid) {
+
     &:hover,
     &:focus-within {
       border-bottom-color: var(--color-em);
@@ -150,7 +151,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
   font-size: .8em;
 
-  > svg {
+  >svg {
     width: 1em;
     height: 1em;
   }

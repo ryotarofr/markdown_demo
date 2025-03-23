@@ -7,7 +7,7 @@ import {
 import { Input } from "@/components/ui/Input";
 import { Override } from "@/types/Override";
 
-import styles from "./NumberInput.module.scss";
+// import styles from "./NumberInput.module.scss";
 
 /**
  * 数値入力
@@ -85,7 +85,7 @@ export const NumberInput = ({
       {...wrappedProps}
       type="number"
       className={clsx(
-        styles.NumberInput,
+        // styles.NumberInput,
         wrappedProps.className,
       )}
       onKeyDown={handleKeyDown}

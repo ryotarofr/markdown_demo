@@ -27,14 +27,15 @@ import {
 import { Override } from "@/types/Override";
 
 // import { WarnMap, getWarnMap } from "./getWarnMap";
-// import styles from "./Input.module.scss";
+import styles from "./Input.module.scss";
+import { Label } from "../Label";
 
 /**
  * 入力欄のスタイル統一と挙動実装のための汎用`<input />`ラッパー。
  */
 export const Input = forwardRef(function Input({
   // tabIndex,
-  // label,
+  label,
   value: propsValue,
   setValue: propsSetValue,
   valueMapper = (it) => it,
@@ -43,13 +44,13 @@ export const Input = forwardRef(function Input({
   children,
   containerProps,
   stretch = false,
-  // simplified = false,
+  simplified = false,
   suppressWheelPropergation = false,
-  // showClearButton: propsShowClearButton = true,
+  showClearButton: propsShowClearButton = true,
   // customValidations,
   readOnly = false,
   cooldownDuration = 0,
-  // hiddenWarning = false,
+  hiddenWarning = false,
   onInvalid,
   autoComplete = "off",
   ...wrappedProps
@@ -117,7 +118,7 @@ export const Input = forwardRef(function Input({
   // const tabIndexes = TabIndexes.from(tabIndex);
   const disabled = wrappedProps.disabled;
   const inputId = useId();
-  // const required = wrappedProps.required;
+  const required = wrappedProps.required;
   const ref = useRef<HTMLInputElement>(null);
   useImperativeHandle(_ref, () => ref.current as HTMLInputElement);
 
@@ -183,21 +184,21 @@ export const Input = forwardRef(function Input({
     return () => ref.removeEventListener("wheel", suppressScroll);
   }, [suppressWheelPropergation, conatinerRef]);
 
-  // const clearValue = () => setCurrentValue("");
-  // const showClearButton
-  //   = propsShowClearButton
-  //   && currentValue != null
-  //   && currentValue !== "";
+  const clearValue = () => setCurrentValue("");
+  const showClearButton
+    = propsShowClearButton
+    && currentValue != null
+    && currentValue !== "";
   const resetValue = () => setCurrentValue(wrappedProps.defaultValue?.toString() ?? value ?? "");
   useEffect(() => resetValue(), initDeps);
-  // const showResetButton
-  //   = value
-  //   && currentValue !== value;
+  const showResetButton
+    = value
+    && currentValue !== value;
 
-  // const showControls
-  //   = label !== undefined
-  //   && readOnly !== true
-  //   && !disabled;
+  const showControls
+    = label !== undefined
+    && readOnly !== true
+    && !disabled;
 
   const [coolingDown, setCoolingDown] = useState(false);
   const onChange: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -221,12 +222,12 @@ export const Input = forwardRef(function Input({
       data-testid="inputRoot"
       ref={conatinerRef}
       className={clsx(
-        // styles.Input,
-        // simplified && styles.Simplified,
+        styles.Input,
+        simplified && styles.Simplified,
         containerProps?.className,
       )}
     >
-      {/* {!simplified
+      {!simplified
         && <div
           className={clsx(styles.Header,
             label === undefined && styles.Hidden)}
@@ -250,10 +251,10 @@ export const Input = forwardRef(function Input({
                 styles.ValueControllButton,
                 !showClearButton && styles.Invisible,
               )}
-              tabIndex={tabIndexes.latest}
+              // tabIndex={tabIndexes.latest}
               onClick={clearValue}
             >
-              <CrossIcon />
+              {/* <CrossIcon /> */}
             </button>
             <button
               type="button"
@@ -261,22 +262,22 @@ export const Input = forwardRef(function Input({
                 styles.ValueControllButton,
                 !showResetButton && styles.Invisible,
               )}
-              tabIndex={tabIndexes.latest}
+              // tabIndex={tabIndexes.latest}
               onClick={resetValue}
             >
-              <ResetIcon />
+              {/* <ResetIcon /> */}
             </button>
           </div>
         </div>
-      } */}
+      }
       <div
-      // className={styles.InputContainer}
+        className={styles.InputContainer}
       >
         {stretch
           && <div
             className={clsx(
               wrappedProps.className,
-              // styles.InputSizeDetector,
+              styles.InputSizeDetector,
             )}
             data-placeholder={wrappedProps.placeholder}
           >{currentValue}</div>
@@ -288,13 +289,13 @@ export const Input = forwardRef(function Input({
           id={inputId}
           value={valueMapper(currentValue)}
           className={clsx(
-            // styles.RawInput,
-            // stretch && styles.Stretch,
-            // simplified && styles.Simplified,
-            // !simplified && styles.NotSimplified,
-            // required && (currentValue != "") && styles.Required,
-            // required && (currentValue == "" || currentValue == null || currentValue == undefined) && styles.RequiredNull,
-            // readOnly === true && styles.ReadOnly,
+            styles.RawInput,
+            stretch && styles.Stretch,
+            simplified && styles.Simplified,
+            !simplified && styles.NotSimplified,
+            required && (currentValue != "") && styles.Required,
+            required && (currentValue == "" || currentValue == null || currentValue == undefined) && styles.RequiredNull,
+            readOnly === true && styles.ReadOnly,
             wrappedProps.className,
           )}
           // tabIndex={tabIndexes.latest}
