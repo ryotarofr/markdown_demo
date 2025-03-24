@@ -16,8 +16,11 @@ React,
 import * as ReactJSXRuntime from "react/jsx-runtime";
 
 import { Button } from '@/components/ui/Button/index.';
+import { Modal } from "@/components/ui/Modal";
+import { Input } from "@/components/ui/Input";
+import { partializeSetState } from "@/fn/partializeSetState";
 import { highlightCode, loadComponent } from '@/util/function';
-import GitHubFileDisplay from "@/components/GitHubFileDisplay";
+import styles from "./MarkdownLexer.module.scss";
 
 declare global {
   interface Window {
@@ -77,8 +80,66 @@ export default function MDX({ md, customComponentPath }: MDXProps) {
     convert(true, md);
   }, []);
 
-  const handleChange = async (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const toNo = (value: string) => {
+    const match = value.match(/^#L(\d+)$/);
+    return match ? match[1] : null;
+  }
+  const toSegment = (path: string): string[] | Error => {
+    const pathArray = path.split('/').filter(segment => segment.length > 0);
+    const err = new Error("URLの形式が多分違います。githubのファイルURLをコピペするだけ。");
+    if (pathArray.length < 4 || pathArray[2] !== "blob") {
+      return err;
+    }
+    return pathArray;
+  }
+  const isError = (value: unknown): value is Error => {
+    return value instanceof Error;
+  }
+  const setParam = (url: URL, key: string, value: string) => {
+    url.searchParams.set(key, value);
+    return url.toString();
+  }
+  const transformGitHubUrlToApi = (url: string) => {
+    const urlObj = new URL(url);
+    const lineNumber: string | null = urlObj.hash ? toNo(urlObj.hash) : null;
+    const segmentsOrError = toSegment(urlObj.pathname);
+    if (isError(segmentsOrError)) {
+      throw segmentsOrError;
+    }
+    const [owner, repo, , branch, ...fileSegments] = segmentsOrError;
+    const newUrl = new URL(`https://api.github.com/repos/${owner}/${repo}/contents/${fileSegments.join('/')}`);
+    setParam(newUrl, 'ref', branch);
+    if (lineNumber) {
+      setParam(newUrl, 'start', lineNumber);
+      setParam(newUrl, 'end', '-1');
+    }
+    return newUrl.toString();
+  }
+
+  interface Content {
+    url: string;
+    value: string;
+  }
+  const [content, setContent] = useState<Content>({ url: '', value: '', });
+  const [modal, setModal] = useState<boolean>(false);
+  const handleClick = () => {
+    fetch(`/api/github-file?apiUrl=${transformGitHubUrlToApi(content.url)}`)
+      .then((res) => res.text())
+      .then((res) => {
+        partializeSetState(setContent)('value')(res)
+        const ext = content.url.split('.').pop();
+        const replaceSource = mdxSource.replace(":github", '```' + ext + '\n' + res + '\n```')
+        setMdxSource(replaceSource);
+        convert(false, replaceSource);
+      })
+      .catch((error) => console.error('エラー:', error));
+    setModal(false);
+  };
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    if (modal) return;
     setMdxSource(e.target.value);
+    // TODO! 行はじめのみ有効にしたい
+    if (e.target.value.includes(":github")) return setModal(true);
     convert(false, e.target.value);
   };
 
@@ -90,7 +151,7 @@ export default function MDX({ md, customComponentPath }: MDXProps) {
         value={mdxSource}
         rows={10}
         cols={50}
-        style={{ width: "100%", marginBottom: "1rem" }}
+        className={styles.textarea}
       />
       <hr />
       <div ref={containerRef}>
@@ -99,7 +160,18 @@ export default function MDX({ md, customComponentPath }: MDXProps) {
       <hr />
       <Button onClick={() => setShowTree((prev) => !prev)}>{showTree ? "close" : "show"} Tree</Button>
       {showTree && <pre>{compiledMDX}</pre>}
-      <GitHubFileDisplay />
+      <Modal
+        opened={modal}
+        setOpened={setModal}
+      >
+        <Input
+          style={{ width: '600px' }}
+          type="text"
+          placeholder='githubのファイルURLを入力'
+          value={content.url}
+          setValue={(value) => partializeSetState(setContent)("url")(value)} />
+        <Button onClick={() => handleClick()}>取得</Button>
+      </Modal>
     </div >
   );
 }

@@ -1,3 +1,5 @@
+"use client"
+
 import clsx from "clsx";
 import {
   ComponentPropsWithoutRef,
@@ -10,7 +12,7 @@ import { hasScrollableInParents } from "@/fn/hasScrollableInParents";
 // import { TabIndex, TabIndexes } from "@/fn/state/useTabIndexes";
 import { Override } from "@/types/Override";
 
-import styles from "./Modal.module.scss";
+// import styles from "./Modal.module.scss";
 
 let beforeFocusRef: HTMLElement | undefined;
 
@@ -62,13 +64,13 @@ export const Modal = ({
     event.preventDefault();
   };
 
-  // 最初のdialogが開かれる前のfocus要素をglobalに保持
-  if (!document.activeElement?.closest("dialog")
-    && document.activeElement?.tagName !== "DIALOG"
-    && document.activeElement !== document.body) {
-    beforeFocusRef = document.activeElement as HTMLElement;
-  }
   useEffect(() => {
+    // 最初のdialogが開かれる前のfocus要素をglobalに保持
+    if (!document.activeElement?.closest("dialog")
+      && document.activeElement?.tagName !== "DIALOG"
+      && document.activeElement !== document.body) {
+      beforeFocusRef = document.activeElement as HTMLElement;
+    }
     const dialog = ref.current;
     if (!dialog) return;
     if (opened) {
@@ -96,7 +98,7 @@ export const Modal = ({
       tabIndex={1}
       ref={ref}
       className={clsx(
-        styles.Modal,
+        // styles.Modal,
         wrappedProps.className,
       )}
       onKeyDown={(event) => {
@@ -116,9 +118,9 @@ export const Modal = ({
         const rect = event.currentTarget.getBoundingClientRect();
         const clickedInDialog = (
           rect.top <= event.clientY
-            && event.clientY <= rect.top + rect.height
-            && rect.left <= event.clientX
-            && event.clientX <= rect.left + rect.width
+          && event.clientY <= rect.top + rect.height
+          && rect.left <= event.clientX
+          && event.clientX <= rect.left + rect.width
         );
         if (clickedInDialog) return;
         setOpened(false);
@@ -126,12 +128,12 @@ export const Modal = ({
     >
       {title
         && <hgroup
-          className={styles.Title}
+        // className={styles.Title}
         >
           <h1>
             {titleIcon && (
               <span
-                className={styles.TitleIcon}
+                // className={styles.TitleIcon}
                 onClick={onTitleIconClick}
                 data-clickable={!!onTitleIconClick}
               >
@@ -144,7 +146,7 @@ export const Modal = ({
             customCloseButton
           ) : (
             <button
-              className={styles.CloseButton}
+              // className={styles.CloseButton}
               // tabIndex={tabIndexes.closeIcon}
               onClick={() => setOpened(false)}
             />

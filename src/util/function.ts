@@ -26,28 +26,6 @@ export class loadComponent {
     }
   }
 
-  private insert(ext: string, code: string) {
-    // _jsx(_components.pre, {
-    //     children: _jsx(_components.code, {
-    //         className: "language-jsx",
-    //         children: 'const hoge = "hoge"\n'
-    //     })
-    // })
-    //
-    // jsx(components.pre, {
-    //     children: jsx(components.code, {
-    //         className: `language-${ext}`,
-    //         children: 'const hoge = "hoge"\n'
-    //     })
-    // })
-    //
-    // ext : langageの取得 -> 拡張子使う
-    // code: 
-    function pre() {
-      // TODO
-    }
-  }
-
   /**
    * compile_mdx にて生成された不要なインポート削除 & パスの調整
    */
@@ -77,7 +55,6 @@ export async function highlightCode({ containerRef }: { containerRef: React.RefO
   const container = containerRef.current;
   if (!container) return;
   const nodes = Array.from(container.querySelectorAll("code"));
-  console.log(nodes);
 
   nodes.forEach((node) => {
     highlightNode(node, starryNight, prefix);

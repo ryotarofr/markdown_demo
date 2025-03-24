@@ -38,7 +38,6 @@ interface TabBlockProps {
 
 export function TabBlock({ children }: TabBlockProps) {
   const codeBlocks = React.Children.toArray(children) as React.ReactElement<TabElementProps>[];
-  console.log("codeBlocks", codeBlocks);
   const [activeIdx, setActiveIdx] = useState(0);
   const activeChild = codeBlocks[activeIdx];
 
