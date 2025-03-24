@@ -20,6 +20,7 @@ import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 import { partializeSetState } from "@/fn/partializeSetState";
 import { highlightCode, loadComponent } from './function';
+import { Url } from "./struct/Url";
 import styles from "./MarkdownLexer.module.scss";
 
 declare global {
@@ -35,7 +36,6 @@ if (typeof window !== "undefined") {
 }
 
 import init, { compile_mdx } from '@/crates/mdxjs-rs/pkg/mdxjs_rs.js';
-import { Url } from "./Url";
 const P = {
   init: async (initFunc: typeof init) => await initFunc(),
   from: async (
