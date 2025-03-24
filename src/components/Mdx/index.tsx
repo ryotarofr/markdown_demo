@@ -19,7 +19,7 @@ import { Button } from '@/components/ui/Button/index.';
 import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 import { partializeSetState } from "@/fn/partializeSetState";
-import { highlightCode, loadComponent } from '@/util/function';
+import { highlightCode, loadComponent } from './function';
 import styles from "./MarkdownLexer.module.scss";
 
 declare global {

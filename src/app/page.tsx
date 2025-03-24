@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import MDX from '@/util/MarkdownLexer';
+import MDX from '@/components/Mdx';
 import styles from "./page.module.css";
 
 export default function Page() {
