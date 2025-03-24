@@ -35,6 +35,7 @@ if (typeof window !== "undefined") {
 }
 
 import init, { compile_mdx } from '@/crates/mdxjs-rs/pkg/mdxjs_rs.js';
+import { Url } from "./Url";
 const P = {
   init: async (initFunc: typeof init) => await initFunc(),
   from: async (
@@ -80,38 +81,19 @@ export default function MDX({ md, customComponentPath }: MDXProps) {
     convert(true, md);
   }, []);
 
-  const toNo = (value: string) => {
-    const match = value.match(/^#L(\d+)$/);
-    return match ? match[1] : null;
-  }
-  const toSegment = (path: string): string[] | Error => {
-    const pathArray = path.split('/').filter(segment => segment.length > 0);
-    const err = new Error("URLの形式が多分違います。githubのファイルURLをコピペするだけ。");
-    if (pathArray.length < 4 || pathArray[2] !== "blob") {
-      return err;
-    }
-    return pathArray;
-  }
-  const isError = (value: unknown): value is Error => {
-    return value instanceof Error;
-  }
-  const setParam = (url: URL, key: string, value: string) => {
-    url.searchParams.set(key, value);
-    return url.toString();
-  }
-  const transformGitHubUrlToApi = (url: string) => {
-    const urlObj = new URL(url);
-    const lineNumber: string | null = urlObj.hash ? toNo(urlObj.hash) : null;
-    const segmentsOrError = toSegment(urlObj.pathname);
-    if (isError(segmentsOrError)) {
+  const transformGitHubUrlToApi = (url: Url) => {
+    const urlObj = new URL(url.value);
+    const lineNumber: string | null = urlObj.hash ? Url.toNo(urlObj.hash) : null;
+    const segmentsOrError = Url.toSegment(urlObj.pathname);
+    if (Url.isError(segmentsOrError)) {
       throw segmentsOrError;
     }
-    const [owner, repo, , branch, ...fileSegments] = segmentsOrError;
+    const [owner, repo, _, branch, ...fileSegments] = segmentsOrError;
     const newUrl = new URL(`https://api.github.com/repos/${owner}/${repo}/contents/${fileSegments.join('/')}`);
-    setParam(newUrl, 'ref', branch);
+    Url.setParam(newUrl, 'ref', branch);
     if (lineNumber) {
-      setParam(newUrl, 'start', lineNumber);
-      setParam(newUrl, 'end', '-1');
+      Url.setParam(newUrl, 'start', lineNumber);
+      Url.setParam(newUrl, 'end', '-1');
     }
     return newUrl.toString();
   }
@@ -123,7 +105,7 @@ export default function MDX({ md, customComponentPath }: MDXProps) {
   const [content, setContent] = useState<Content>({ url: '', value: '', });
   const [modal, setModal] = useState<boolean>(false);
   const handleClick = () => {
-    fetch(`/api/github-file?apiUrl=${transformGitHubUrlToApi(content.url)}`)
+    fetch(`/api/github-file?apiUrl=${transformGitHubUrlToApi({ value: content.url })}`)
       .then((res) => res.text())
       .then((res) => {
         partializeSetState(setContent)('value')(res)
