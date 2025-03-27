@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useLayoutEffect, useState } from "react";
 
 export class Emitter<const T> {
   private disposables = new Set<(cb: any) => void>();
 
-  constructor(public value?: T) {}
+  constructor(public value?: T) { }
 
   listen = (disposable: (cb: T) => void) => {
     this.disposables.add(disposable);
