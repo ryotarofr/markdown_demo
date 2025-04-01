@@ -19,6 +19,9 @@ export const Url = (() => {
   const isError = (value: unknown): value is Error => {
     return value instanceof Error;
   }
+  const getExt = (value: string): string | undefined => {
+    return value.split('.').pop();
+  }
   const setParam = (url: URL, key: string, value: string) => {
     url.searchParams.set(key, value);
     return url.toString();
@@ -28,6 +31,7 @@ export const Url = (() => {
     toNo,
     toSegment,
     isError,
+    getExt,
     setParam,
   }
 })();

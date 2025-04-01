@@ -81,9 +81,8 @@ export default function MDX({ md, customComponentPath }: MDXProps) {
     convert(true, md);
   }, []);
 
-  const transformGitHubUrlToApi = (url: Url) => {
+  const transformUrl = (url: Url) => {
     const urlObj = new URL(url.value);
-    const lineNumber: string | null = urlObj.hash ? Url.toNo(urlObj.hash) : null;
     const segmentsOrError = Url.toSegment(urlObj.pathname);
     if (Url.isError(segmentsOrError)) {
       throw segmentsOrError;
@@ -91,11 +90,15 @@ export default function MDX({ md, customComponentPath }: MDXProps) {
     const [owner, repo, _, branch, ...fileSegments] = segmentsOrError;
     const newUrl = new URL(`https://api.github.com/repos/${owner}/${repo}/contents/${fileSegments.join('/')}`);
     Url.setParam(newUrl, 'ref', branch);
+    const lineNumber: string | null = urlObj.hash ? Url.toNo(urlObj.hash) : null;
     if (lineNumber) {
       Url.setParam(newUrl, 'start', lineNumber);
       Url.setParam(newUrl, 'end', '-1');
     }
-    return newUrl.toString();
+    return {
+      url: newUrl.toString(),
+      ext: Url.getExt(urlObj.pathname),
+    };
   }
 
   interface Content {
@@ -105,12 +108,15 @@ export default function MDX({ md, customComponentPath }: MDXProps) {
   const [content, setContent] = useState<Content>({ url: '', value: '', });
   const [modal, setModal] = useState<boolean>(false);
   const handleClick = () => {
-    fetch(`/api/github-file?apiUrl=${transformGitHubUrlToApi({ value: content.url })}`)
+    // TODO! refactor
+    const { url, ext } = transformUrl({ value: content.url });
+    fetch(`/api/github-file?apiUrl=${url}`)
       .then((res) => res.text())
       .then((res) => {
         partializeSetState(setContent)('value')(res)
-        const ext = content.url.split('.').pop();
-        const replaceSource = mdxSource.replace(":github", '```' + ext + '\n' + res + '\n```')
+        const replaceSource = mdxSource.replace(
+          ":github", '[' + 'githubリンク' + ']' + '(' + content.url + ')\n' + '```' + ext + '\n' + res + '\n```'
+        )
         setMdxSource(replaceSource);
         convert(false, replaceSource);
       })
