@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import MDX from '@/components/Mdx';
 import styles from "./page.module.css";
+import CodeMirror from '@/components/codemirror';
 
 export default function Page() {
   const publicDir = path.join(process.cwd(), 'public');
@@ -11,6 +12,7 @@ export default function Page() {
   return (
     <div className={styles.page}>
       <MDX md="# Hello World!!!" customComponentPath={jsFiles} />
+      <CodeMirror />
     </div >
   );
 }
